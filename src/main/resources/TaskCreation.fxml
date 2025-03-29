@@ -18,11 +18,11 @@
       <Text layoutX="299.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
       <Text layoutX="411.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reccurence Rule:" />
       <DatePicker layoutX="73.0" layoutY="68.0" prefHeight="25.0" prefWidth="89.0" />
-      <Spinner layoutX="225.0" layoutY="68.0" prefHeight="25.0" prefWidth="62.0" />
-      <Spinner layoutX="313.0" layoutY="68.0" prefHeight="25.0" prefWidth="75.0" />
+      <Spinner layoutX="229.0" layoutY="68.0" prefHeight="25.0" prefWidth="62.0" />
       <TextField layoutX="19.0" layoutY="14.0" prefHeight="25.0" prefWidth="562.0" promptText="Task Title" />
-      <TextArea layoutX="42.0" layoutY="118.0" prefHeight="200.0" prefWidth="492.0" promptText="Entry Box (5000 characters)" />
-      <ComboBox layoutX="76.0" layoutY="343.0" prefHeight="0.0" prefWidth="150.0" promptText="Create New" />
+      <TextArea layoutX="26.0" layoutY="103.0" prefHeight="224.0" prefWidth="557.0" promptText="Entry Box (5000 characters)" />
+      <ComboBox layoutX="76.0" layoutY="346.0" prefHeight="0.0" prefWidth="150.0" promptText="Create New" />
       <ComboBox layoutX="513.0" layoutY="66.0" prefHeight="28.0" prefWidth="75.0" promptText="Placeholder" />
+      <Spinner layoutX="307.0" layoutY="69.0" prefHeight="25.0" prefWidth="62.0" />
    </children>
 </AnchorPane>

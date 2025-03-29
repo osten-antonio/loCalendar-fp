@@ -4,16 +4,16 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+import javafx.scene.text.Font;
 
 
 import java.io.IOException;
 
 public class Main extends Application {
 
-
     @Override
     public void start(Stage stage) throws IOException {
+        Font.loadFont(getClass().getResourceAsStream("/fonts/fontawesome-webfont.ttf"), 16);
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/mainWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
