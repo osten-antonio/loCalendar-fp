@@ -22,7 +22,7 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.util.ResourceBundle;
-
+import localendar.TaskComparator;
 
 
 
@@ -30,6 +30,7 @@ public class MainController implements Initializable {
     Database db = new Database();
     HashMap<Integer, Category> categories = db.getCategories();
 
+    PriorityQueue<Task> tasks = new PriorityQueue<>(new TaskComparator());
     // Add ChangeListener for search
     @FXML
     private VBox taskArea;
@@ -54,17 +55,26 @@ public class MainController implements Initializable {
         try{
             ResultSet taskQueryResult = db.getTasks();
             while(taskQueryResult.next()){
-                /*
-                Do ur data structure thing here, only loading the tasks to ur data structure
-                 */
+                tasks.add(
+                        new Task(
+                                taskQueryResult.getString("title"),
+                                taskQueryResult.getString("body"),
+                                taskQueryResult.getBoolean("status"),
+                                LocalDate.parse(taskQueryResult.getString("due_date")),
+                                LocalTime.parse(taskQueryResult.getString("time")),
+                                taskQueryResult.getInt("priority"),
+                                taskQueryResult.getString("rrule"),
+                                categories.get(taskQueryResult.getInt("category_id"))
+                        )
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        /*
-        Then run generateTaskItem(Task task) for each of your task item in your data structure
-         */
+        tasks.forEach(task->{
+            System.out.println("A");
+            generateTaskItem(task);
+        });
 
 
 
