@@ -59,7 +59,7 @@ public class Database {
          For LocalDate dueDate, use
             LocalDate.parse(rs.getString("due_date"))
          For LocalTime time, use
-            LocalTime.parse(rs.getString("time_column"))
+            LocalTime.parse(rs.getString("time"))
          For category, use
             CATEGORY_HASHMAP.get(rs.getInt("category_id"))
 

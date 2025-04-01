@@ -12,11 +12,15 @@ import localendar.Category;
 import localendar.Database;
 import localendar.Task;
 
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 import java.util.ResourceBundle;
 
 
@@ -26,7 +30,7 @@ public class MainController implements Initializable {
     Database db = new Database();
     HashMap<Integer, Category> categories = db.getCategories();
 
-    // ChangeListener for search
+    // Add ChangeListener for search
     @FXML
     private VBox taskArea;
 
@@ -46,7 +50,6 @@ public class MainController implements Initializable {
         sort_time.setItems(FXCollections.observableArrayList("\uD83D\uDD53 Due time",
                 "↓   Highest to Lowest",
                 "↑   Lowest to Highest"));
-
 
         try{
             ResultSet taskQueryResult = db.getTasks();

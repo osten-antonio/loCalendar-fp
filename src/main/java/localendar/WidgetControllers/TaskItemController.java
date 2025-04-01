@@ -33,9 +33,9 @@ public class TaskItemController {
         String truncatedText = name;
         Text tempText = new Text(name);
 
-        while (tempText.getLayoutBounds().getWidth() > 65 && truncatedText.length() > 3) {
-            // If the temp text element's width is more than 65px, remove one character and test if
-            // adding ... to the end is still more than 65
+        while (tempText.getLayoutBounds().getWidth() > 100 && truncatedText.length() > 3) {
+            // If the temp text element's width is more than 100px, remove one character and test if
+            // adding ... to the end is still more than 100
             // Done to ensure that the width is constant for different category name
             truncatedText = truncatedText.substring(0, truncatedText.length() - 1);
             tempText.setText(truncatedText + "...");

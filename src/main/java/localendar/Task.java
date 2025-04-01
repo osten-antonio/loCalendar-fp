@@ -3,6 +3,7 @@ package localendar;
 import javax.lang.model.type.NullType;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.Iterator;
 
 public class Task {
@@ -38,7 +39,7 @@ public class Task {
         return priority;
     }
 
-    public boolean isStatus() {  // Boolean getter uses "is" instead of "get"
+    public boolean isStatus() {
         return status;
     }
 
@@ -90,6 +91,19 @@ public class Task {
         this.category = category;
     }
 
+
+    public int compare(Task task1,Task task2){
+        if(task1.getPriority().getLevel() > task2.getPriority().getLevel()){
+            return 1;
+        }
+        if(task1.getPriority().getLevel() < task2.getPriority().getLevel()){
+            return -1;
+        }
+        if(task1.getDueDate().compareTo(task2.getDueDate()) != 0){
+            return task1.getDueDate().compareTo(task2.getDueDate());
+        }
+        return task1.getDueTime().compareTo(task2.getDueTime());
+    }
 
 
     private RecurrenceRule parseRecurrenceRule(String rrule){
