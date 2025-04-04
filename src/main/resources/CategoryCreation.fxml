@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CategoryCreation">
+   <children>
+      <Text layoutX="252.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Category Creation" />
+      <Text layoutX="28.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Category Name:" />
+      <Text layoutX="29.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Category Color:" />
+      <TextArea layoutX="125.0" layoutY="55.0" prefHeight="39.0" prefWidth="439.0" />
+      <TextArea layoutX="125.0" layoutY="113.0" prefHeight="40.0" prefWidth="439.0" />
+      <Button layoutX="492.0" layoutY="342.0" mnemonicParsing="false" text="Create" />
+   </children>
+</AnchorPane>
