@@ -1,14 +1,480 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="localendar.MainController">
-   <children>
-      <Button layoutX="219.0" layoutY="488.0" mnemonicParsing="false" onMouseClicked="#test" text="Test database" />
-      <VBox fx:id="testbox" layoutX="486.0" layoutY="99.0" prefHeight="200.0" prefWidth="100.0" />
-      <Button fx:id="creationButton" layoutX="219.0" layoutY="527.0" mnemonicParsing="false" onMouseClicked="#openCreationScreen" text="Open creation screen" />
-   </children>
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="localendar.WidgetControllers.MainController">
+    <children>
+        <SplitPane dividerPositions="0.5" layoutX="15.0" layoutY="12.0" orientation="VERTICAL" prefHeight="690.0" prefWidth="1252.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="299.0" prefWidth="1250.0">
+               <children>
+                  <GridPane gridLinesVisible="true" layoutX="39.0" layoutY="33.0" style="-fx-border-color: #AAAAAA; -fx-background-color: #AAAAAA; -fx-vgap: 1; -fx-hgap: 1; -fx-padding: 1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="69.0" prefWidth="182.0" GridPane.rowIndex="1">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="112.53670501708984">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" />
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="180.53671073913574">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="3">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                     </children>
+                  </GridPane>
+                  <Button layoutX="1104.0" layoutY="9.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="30.0" text="&lt;" />
+                  <Button layoutX="1189.0" layoutY="9.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="30.0" text="&gt;" />
+                  <Text layoutX="15.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="March 2025" wrappingWidth="126.39999999999986">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="51.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MONDAY" wrappingWidth="54.400000000000034" />
+                  <Text layoutX="244.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TUESDAY" wrappingWidth="54.400000000000034" />
+                  <Text layoutX="410.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WEDNESDAY" wrappingWidth="97.5999999999998" />
+                  <Text layoutX="584.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="THURSDAY" wrappingWidth="81.60001220703128" />
+                  <Text layoutX="788.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FRIDAY" wrappingWidth="54.400000000000034" />
+                  <Text layoutX="939.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SATURDAY" wrappingWidth="74.39993896484378" />
+                  <Text layoutX="1135.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUNDAY" wrappingWidth="54.400000000000034" />
+                  <Button layoutX="1135.0" layoutY="9.0" mnemonicParsing="false" text="TODAY" />
+               </children></AnchorPane>
+                <SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="1250.0">
+                    <items>
+                        <AnchorPane maxHeight="-Infinity" maxWidth="400.0" minHeight="-Infinity" minWidth="200.0" prefHeight="300.0" prefWidth="300.0">
+                            <children>
+                                <ScrollPane layoutX="43.0" layoutY="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="729.0" prefWidth="241.0">
+                                 <children>
+                                    <ComboBox fx:id="sort_priority" layoutX="7.0" layoutY="33.0" prefHeight="27.0" prefWidth="229.0" promptText="↕    Priority" style="-fx-border-color: #AAAAAA;" />
+                                    <ComboBox fx:id="sort_due" layoutX="7.0" layoutY="69.0" prefHeight="27.0" prefWidth="229.0" promptText="📆 Due date" style="-fx-border-color: #AAAAAA;" />
+                                    <ComboBox fx:id="sort_time" layoutX="7.0" layoutY="106.0" prefHeight="27.0" prefWidth="229.0" promptText="🕓 Due time" style="-fx-border-color: #AAAAAA;" />
+                                    <Text layoutX="8.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort by:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="8.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter by:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <CheckBox layoutX="9.0" layoutY="163.0" mnemonicParsing="false" text="Completed" />
+                                    <CheckBox layoutX="111.0" layoutY="164.0" mnemonicParsing="false" text="Uncompleted" />
+                                    <Text layoutX="10.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due date range:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="10.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <DatePicker layoutX="59.0" layoutY="227.0" prefHeight="26.0" prefWidth="178.0" />
+                                    <Text layoutX="10.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <DatePicker layoutX="59.0" layoutY="260.0" prefHeight="26.0" prefWidth="178.0" />
+                                    <Text layoutX="10.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due time range (24 hr format):">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="10.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="10.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="124.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
+                                    <Text layoutX="124.0" layoutY="396.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
+                                    <CheckBox layoutX="217.0" layoutY="315.0" mnemonicParsing="false" />
+                                    <CheckBox layoutX="120.0" layoutY="196.0" mnemonicParsing="false" />
+                                    <Text layoutX="13.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categories:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <Button layoutX="179.0" layoutY="416.0" mnemonicParsing="false" text="+" />
+                                    <Button layoutX="208.0" layoutY="416.0" mnemonicParsing="false" text="🗑" />
+                                    <ScrollPane layoutX="13.0" layoutY="446.0" prefHeight="117.0" prefWidth="222.0">
+                                       <content>
+                                          <VBox prefHeight="28.0" prefWidth="204.0" />
+                                       </content>
+                                    </ScrollPane>
+                                    <Text layoutX="13.0" layoutY="586.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recurring rules">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <Button layoutX="179.0" layoutY="569.0" mnemonicParsing="false" text="+" />
+                                    <Button layoutX="208.0" layoutY="569.0" mnemonicParsing="false" text="🗑" />
+                                    <ScrollPane layoutX="13.0" layoutY="599.0" prefHeight="117.0" prefWidth="222.0">
+                                       <content>
+                                          <VBox prefHeight="28.0" prefWidth="204.0" />
+                                       </content>
+                                    </ScrollPane>
+                                    <Spinner layoutX="56.0" layoutY="345.0" prefHeight="25.0" prefWidth="62.0" />
+                                    <Spinner layoutX="131.0" layoutY="345.0" prefHeight="25.0" prefWidth="62.0" />
+                                    <Spinner layoutX="56.0" layoutY="381.0" prefHeight="25.0" prefWidth="62.0" />
+                                    <Spinner layoutX="130.0" layoutY="381.0" prefHeight="25.0" prefWidth="62.0" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                                </ScrollPane>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="975.0">
+                     <children>
+                        <Button layoutX="8.0" layoutY="7.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Create new" />
+                        <Button layoutX="113.0" layoutY="7.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Categories" />
+                        <TextField layoutX="785.0" layoutY="8.0" prefHeight="25.0" prefWidth="181.0" promptText="Search 🔎" />
+                        <ScrollPane layoutX="13.0" layoutY="50.0" prefHeight="239.0" prefWidth="949.0">
+                           <content>
+                              <VBox fx:id="taskArea" fillWidth="false" prefHeight="200.0" prefWidth="933.0" />
+                           </content></ScrollPane>
+                     </children></AnchorPane>
+                    </items>
+                </SplitPane>
+            </items>
+        </SplitPane>
+    </children>
 </AnchorPane>
