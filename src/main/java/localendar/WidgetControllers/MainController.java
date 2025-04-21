@@ -5,9 +5,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import localendar.Category;
 import localendar.Database;
 import localendar.Task;
@@ -17,22 +20,22 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
-import java.util.PriorityQueue;
 import java.util.ResourceBundle;
 
 
 
 
 public class MainController implements Initializable {
-    Database db = new Database();
-    HashMap<Integer, Category> categories = db.getCategories();
+    private Database db = new Database();
+    private HashMap<Integer, Category> categories = db.getCategories();
 
     // Add ChangeListener for search
     @FXML
     private VBox taskArea;
+
+    @FXML
+    private AnchorPane root;
 
     @FXML
     private ComboBox<String> sort_priority,sort_due,sort_time;
@@ -100,12 +103,75 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    protected void openCreationScreen() {
-        // TODO here
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("test");
-        alert.setHeaderText("test");
-        alert.showAndWait();
+    private void openCreationScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TaskCreation.fxml"));
+
+            Parent taskRoot = loader.load();
+
+            Stage taskWindow = new Stage();
+            taskWindow.setTitle("Create task");
+            taskWindow.setScene(new Scene(taskRoot, 600, 400));
+            taskWindow.setResizable(false);
+
+            root.setDisable(true); // Disbales the main window when category screen is opened
+
+            taskWindow.setOnHidden(event -> {
+                root.setDisable(false);  // Makes it enabled again when category is cllosed
+            });
+
+            taskWindow.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void openCategoriesScreen(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CategoryWindow.fxml"));
+
+            Parent categoriesRoot = loader.load();
+
+            Stage categoriesWindow = new Stage();
+            categoriesWindow.setTitle("Categories");
+            categoriesWindow.setScene(new Scene(categoriesRoot, 640, 480));
+            categoriesWindow.setResizable(false);
+
+            root.setDisable(true); // Disbales the main window when category screen is opened
+
+            categoriesWindow.setOnHidden(event -> {
+                root.setDisable(false);  // Makes it enabled again when category is cllosed
+            });
+
+            categoriesWindow.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void openTaskCreate(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TaskCreation.fxml"));
+
+            Parent taskCreateRoot = loader.load();
+
+            Stage taskCreateWindow= new Stage();
+            taskCreateWindow.setTitle("Create task");
+            taskCreateWindow.setScene(new Scene(taskCreateRoot, 600, 400));
+            taskCreateWindow.setResizable(false);
+
+            root.setDisable(true); // Disbales the main window when category screen is opened
+
+            taskCreateWindow.setOnHidden(event -> {
+                root.setDisable(false);  // Makes it enabled again when category is cllosed
+            });
+
+            taskCreateWindow.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

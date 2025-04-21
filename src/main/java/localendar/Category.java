@@ -4,7 +4,7 @@ public class Category {
     private String name;
     private String color;
     private String textColor;
-    Category(String name, String color, String textColor){
+    public Category(String name, String color, String textColor){
         setName(name);
         setColor(color);
         setTextColor(textColor);

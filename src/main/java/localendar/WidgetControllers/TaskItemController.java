@@ -12,13 +12,13 @@ import java.time.format.DateTimeFormatter;
 
 public class TaskItemController {
     @FXML
-    Text taskTitle,dueDate,dueTime,categoryName,priorityText;
+    private Text taskTitle,dueDate,dueTime,categoryName,priorityText;
 
     @FXML
-    Rectangle categoryBox, priorityBox;
+    private Rectangle categoryBox, priorityBox;
 
     @FXML
-    Button editButton, deleteButton;
+    private Button editButton, deleteButton;
 
     public void setTask(Task task){
         setTaskTitle(task.getTitle());

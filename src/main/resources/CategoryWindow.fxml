@@ -5,14 +5,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="localendar.WidgetControllers.CategoriesController">
    <children>
       <ScrollPane layoutX="34.0" layoutY="65.0" prefHeight="374.0" prefWidth="582.0">
          <content>
-            <VBox prefHeight="369.0" prefWidth="578.0" />
+            <VBox fx:id="categoryArea" prefHeight="369.0" prefWidth="557.0" />
          </content>
       </ScrollPane>
-      <Button layoutX="33.0" layoutY="24.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="112.0" text="CREATE NEW" />
+      <Button fx:id="createButton" layoutX="33.0" layoutY="24.0" mnemonicParsing="false" onMouseClicked="#openCreationScreen" prefHeight="26.0" prefWidth="112.0" text="CREATE NEW" />
    </children>
 </AnchorPane>

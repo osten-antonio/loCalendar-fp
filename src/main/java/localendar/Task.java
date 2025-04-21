@@ -107,7 +107,7 @@ public class Task {
 
 
     private RecurrenceRule parseRecurrenceRule(String rrule){
-        if (rrule == null || rrule.isEmpty()) {
+        if (rrule == null || rrule.isEmpty() || rrule.equals("FREQ=;INTERVAL=;UNTIL=")) {
             return new RecurrenceRule(Frequency.NONE, 0, null);
         }
 
@@ -120,6 +120,7 @@ public class Task {
         for (String part : parts) {
             if (part.startsWith("FREQ=")) {
                 String value = part.substring(5);
+
                 frequency = Frequency.valueOf(value); // Convert String to Enum
             } else if (part.startsWith("INTERVAL=")) {
                 interval = Integer.parseInt(part.substring(9));
@@ -133,6 +134,7 @@ public class Task {
     }
 
     public Iterator<Task> iterator(LocalDate limitDate) {
+        // TODO Chekc if there is recurrence rule first
         return new Iterator<Task>() {
             private final Iterator<LocalDate> recurrenceDates =
                     (rrule.getFrequency() != Frequency.NONE)
