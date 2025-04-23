@@ -162,31 +162,7 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
     }
-
-    @FXML
-    private void openTaskCreate(){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TaskCreation.fxml"));
-
-            Parent taskCreateRoot = loader.load();
-
-            Stage taskCreateWindow= new Stage();
-            taskCreateWindow.setTitle("Create task");
-            taskCreateWindow.setScene(new Scene(taskCreateRoot, 600, 400));
-            taskCreateWindow.setResizable(false);
-
-            root.setDisable(true); // Disbales the main window when category screen is opened
-
-            taskCreateWindow.setOnHidden(event -> {
-                root.setDisable(false);  // Makes it enabled again when category is cllosed
-            });
-
-            taskCreateWindow.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    
     @FXML
     protected void test() {
 //        ArrayList<String> testDatabase = Database.test();
