@@ -1,11 +1,8 @@
 package localendar;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.PriorityQueue;
-
 
 public class Database {
     private Connection conn;
@@ -75,10 +72,16 @@ public class Database {
         }
     }
     public HashMap<Integer, Category> getCategories(){
+        return getCategories(false);
+    }
+    public HashMap<Integer, Category> getCategories(boolean forWindow){
         HashMap<Integer, Category> res = new HashMap<>();
+        String query;
+        if(!forWindow) query = "SELECT * FROM categories";
+        else query = "SELECT * FROM categories WHERE category_id>1";
         try(
             Statement stmt = conn.createStatement();
-            ResultSet sqlRes = stmt.executeQuery("SELECT * FROM categories")
+            ResultSet sqlRes = stmt.executeQuery(query)
             ){
             while(sqlRes.next()){
                 res.put(sqlRes.getInt("category_id"),
@@ -93,6 +96,115 @@ public class Database {
             throw new RuntimeException(e);
         }
     }
+
+    public int writeCategory(Category category){
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM categories WHERE name=?");
+            stmt.setString(1,category.getName());
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                if(rs.getInt(1)>1){
+                    return -1;
+                }
+            }
+            stmt = conn.prepareStatement("INSERT INTO categories (name, color, text_color) VALUES (?, ?, ?)");
+
+            stmt.setString(1, category.getName());
+            stmt.setString(2, category.getColor());
+            stmt.setString(3, category.getTextColor());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int editCategory(Category prevCategory, Category newCategory){
+        try{
+            PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM categories WHERE name=?");
+            stmt.setString(1,newCategory.getName());
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                if(rs.getInt(1)>1){
+                    return -1;
+                }
+            }
+
+            stmt = conn.prepareStatement("UPDATE categories SET name=?, color=?, text_color=? WHERE " +
+                                                                "name=? AND color=? AND text_color=?");
+            stmt.setString(1,newCategory.getName());
+            stmt.setString(2,newCategory.getColor());
+            stmt.setString(3,newCategory.getTextColor());
+            stmt.setString(4, prevCategory.getName());
+            stmt.setString(5, prevCategory.getColor());
+            stmt.setString(6, prevCategory.getTextColor());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public void deleteCategory(Category category){
+        try {
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM categories WHERE name=? AND color=? AND text_color=?");
+            stmt.setString(1, category.getName());
+            stmt.setString(2, category.getColor());
+            stmt.setString(3, category.getTextColor());
+
+            stmt.executeUpdate();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getRecentCategory(){
+        int recentId = -1;
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT MAX(category_id) FROM categories");
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                recentId = rs.getInt(1);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return recentId;
+    }
+
+    public void writeTask(Task task){
+        //TODO
+        try{
+            PreparedStatement stmt = conn.prepareStatement("SELECT category_id FROM categories WHERE name=?");
+            stmt.setString(1,task.getCategory().getName());
+            ResultSet rs = stmt.executeQuery();
+            int categoryId = rs.next() ? rs.getInt("category_id"): 1;
+
+            stmt = conn.prepareStatement("INSERT INTO tasks(title,body,status," +
+                    "due_date,time,rrule,category_id,priority) VALUES (?, ?, ?, ?, ?, " +
+                    "?, ?, ?)");
+            stmt.setString(1,task.getTitle());
+            stmt.setString(2,task.getBody());
+            stmt.setInt(3,task.isStatus() ? 1:0);
+            stmt.setString(4,task.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            stmt.setString(5,task.getDueTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+            stmt.setString(6,task.getRrule().toString());
+            stmt.setInt(7,categoryId);
+            stmt.setInt(8,task.getPriority().getLevel());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 //    public static PriorityQueue<>
 //    public static ArrayList<String> test(){
