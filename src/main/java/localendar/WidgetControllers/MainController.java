@@ -20,10 +20,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-
-
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 
 public class MainController implements Initializable {
@@ -32,7 +32,11 @@ public class MainController implements Initializable {
 
     // Add ChangeListener for search
     @FXML
-    private VBox taskArea;
+    private VBox taskArea,
+
+    //  VBox for calendar
+    b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17,b18,b19,b20,b21,b22,b23,b24,b25,b26,b27,
+            b28,b29,b30,b31,b32,b33,b34,b35;
 
     @FXML
     private AnchorPane root;
@@ -40,17 +44,37 @@ public class MainController implements Initializable {
     @FXML
     private ComboBox<String> sort_priority,sort_due,sort_time;
 
+    // Month day labels
+    @FXML
+    private Text monthLabel,
+            l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16,l17,l18,l19,l20,l21,l22,l23
+            ,l24,l25,l26,l27,l28,l29,l30,l31,l32,l33,l34,l35;
+
+    private LocalDate curDate;
+
+    private List<Text> monthDayLabels;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        curDate = LocalDate.now();
+
+        monthDayLabels = new ArrayList<>(Arrays.asList(
+                l1, l2, l3, l4, l5, l6, l7, l8, l9, l10,
+                l11, l12, l13, l14, l15, l16, l17, l18, l19, l20,
+                l21, l22, l23, l24, l25, l26, l27, l28, l29, l30,
+                l31, l32, l33, l34, l35
+        ));
+        monthLabel.setText(curDate.format(DateTimeFormatter.ofPattern("MMMM, yyyy")));
+
         sort_priority.setItems( FXCollections.observableArrayList("↕    Priority",
                 "↓    Highest to Lowest",
                 "↑    Lowest to Highest"));
 
-        sort_due.setItems(FXCollections.observableArrayList("\uD83D\uDCC6   Due date",
+        sort_due.setItems( FXCollections.observableArrayList("\uD83D\uDCC6   Due date",
                 "↓     Highest to Lowest",
                 "↑     Lowest to Highest"));
 
-        sort_time.setItems(FXCollections.observableArrayList("\uD83D\uDD53 Due time",
+        sort_time.setItems( FXCollections.observableArrayList("\uD83D\uDD53 Due time",
                 "↓   Highest to Lowest",
                 "↑   Lowest to Highest"));
 
@@ -69,9 +93,38 @@ public class MainController implements Initializable {
         Then run generateTaskItem(Task task) for each of your task item in your data structure
          */
 
-
+        populateCalendar();
 
     }
+
+    private void populateCalendar(){
+        YearMonth currentMonth = YearMonth.from(curDate); //  Gets the year and month
+        LocalDate firstOfMonth = currentMonth.atDay(1); // Gets the first day of month
+        int startDay = firstOfMonth.getDayOfWeek().getValue();
+
+        // Fill leading labels
+        YearMonth tempMonth = YearMonth.from(currentMonth.minusMonths(1));
+        System.out.println(tempMonth.lengthOfMonth());
+        int j = tempMonth.lengthOfMonth();
+        for(int i = startDay-2; i>=0;i--){
+            monthDayLabels.get(i).setText(String.valueOf(j--));
+        }
+        j = 1;
+        // To prevent stackoverflow, makes sure that its less than 35
+        int LengthMonth = Math.min((currentMonth.lengthOfMonth() + startDay - 1), 35);
+
+        for(int i = startDay-1;i<LengthMonth;i++){
+            monthDayLabels.get(i).setText(String.valueOf(j++));
+        }
+
+        // Fill in trailing label
+        j = 1;
+        for (int i = startDay - 1 + currentMonth.lengthOfMonth() ; i < 35; i++) {
+            monthDayLabels.get(i).setText(String.valueOf(j++));
+        }
+
+    }
+
     private void generateTaskItem(Task task){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/TaskItems.fxml"));
@@ -151,27 +204,23 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void openTaskCreate(){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TaskCreation.fxml"));
+    private void left(){
+        curDate = curDate.minusMonths(1);
+        monthLabel.setText(curDate.format(DateTimeFormatter.ofPattern("MMMM, yyyy")));
+        populateCalendar();
+    }
+    @FXML
+    private void right(){
+        curDate = curDate.plusMonths(1);
+        monthLabel.setText(curDate.format(DateTimeFormatter.ofPattern("MMMM, yyyy")));
+        populateCalendar();
+    }
 
-            Parent taskCreateRoot = loader.load();
-
-            Stage taskCreateWindow= new Stage();
-            taskCreateWindow.setTitle("Create task");
-            taskCreateWindow.setScene(new Scene(taskCreateRoot, 600, 400));
-            taskCreateWindow.setResizable(false);
-
-            root.setDisable(true); // Disbales the main window when category screen is opened
-
-            taskCreateWindow.setOnHidden(event -> {
-                root.setDisable(false);  // Makes it enabled again when category is cllosed
-            });
-
-            taskCreateWindow.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @FXML
+    private void today(){
+        curDate = LocalDate.now();
+        monthLabel.setText(curDate.format(DateTimeFormatter.ofPattern("MMMM, yyyy")));
+        populateCalendar();
     }
 
     @FXML
