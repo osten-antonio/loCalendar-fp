@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import localendar.Category;
 import localendar.Database;
+import localendar.Main;
 
 import java.util.HashMap;
 
@@ -20,6 +21,8 @@ public class CategoryCreationController {
     private Button button;
 
     private CategoriesController caller;
+
+    private MainController main;
 
     private Category getResCategory(){
         Color categoryColorVal = categoryColor.getValue();
@@ -68,6 +71,9 @@ public class CategoryCreationController {
     public void setCaller(CategoriesController parent){
         caller = parent;
     }
+    public void setMain(MainController main){
+        this.main = main;
+    }
 
     public void setTaskCreate(ComboBox<String> parent, HashMap<Integer,Category> categories){
         parent.getItems().remove("Create new");
@@ -96,7 +102,9 @@ public class CategoryCreationController {
 
         writeIntoDatabase(resCategory,db);
 
+        main.getCategories().put(db.getRecentCategory(),resCategory);
         caller.generateCategoryItem(resCategory);
+
         db.closeConnection();
         Stage stage = (Stage) categoryName.getScene().getWindow();  // any node in the window works
         stage.close();

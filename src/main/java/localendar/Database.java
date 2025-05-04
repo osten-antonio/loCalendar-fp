@@ -71,6 +71,31 @@ public class Database {
             throw new RuntimeException(e);
         }
     }
+
+    // TODO: Change to respective data structure for List
+//    public Map<Integer,List<Task>> getTasks(LocalDate date, HashMap<Integer, Category> categories){
+//        Map<Integer, List<Task>> res = new HashMap<>();
+//        List<Task> innerRes = new ArrayList<>();
+//        try {
+//            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM tasks WHERE strftime('%Y-%m', due_date) = ?");
+//            stmt.setString(1,date.format(DateTimeFormatter.ofPattern("yyyy-MM")));
+//            ResultSet rs = stmt.executeQuery();
+//            if(rs.next()){
+//                Task tempTask = new Task(rs.getString("title"),rs.getString("body"),
+//                        rs.getInt("status") != 0,
+//                        LocalDate.parse(rs.getString("due_date")),
+//                        LocalTime.parse(rs.getString("time")),
+//                        rs.getInt("priority"), rs.getString("rrule"),
+//                        categories.get(rs.getInt("category_id")));
+//
+//                res.computeIfAbsent(tempTask.getDueDate().getDayOfMonth(), k -> new ArrayList<>()).add(tempTask);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return res;
+//    }
+
     public HashMap<Integer, Category> getCategories(){
         return getCategories(false);
     }
@@ -150,6 +175,7 @@ public class Database {
     }
 
     public void deleteCategory(Category category){
+        // TODO change all task with that category to id of 1 first, then delete
         try {
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM categories WHERE name=? AND color=? AND text_color=?");
             stmt.setString(1, category.getName());
@@ -179,7 +205,7 @@ public class Database {
     }
 
     public void writeTask(Task task){
-        //TODO
+        //TODO add to data strucutre, append task list
         try{
             PreparedStatement stmt = conn.prepareStatement("SELECT category_id FROM categories WHERE name=?");
             stmt.setString(1,task.getCategory().getName());
@@ -205,6 +231,96 @@ public class Database {
 
     }
 
+    public void deleteTask(Task task){
+        // TODO pop from data strucutre, refresh task list
+        try{
+            PreparedStatement stmt = conn.prepareStatement("SELECT category_id FROM categories WHERE name=?");
+            stmt.setString(1,task.getCategory().getName());
+            ResultSet rs = stmt.executeQuery();
+            int categoryId = rs.next() ? rs.getInt("category_id"): 1;
+            stmt = conn.prepareStatement("DELETE FROM tasks WHERE title = ? AND body = ? AND status = ? " +
+                    "AND due_date = ? AND time = ? AND rrule = ? AND category_id = ? AND priority = ?");
+
+            stmt.setString(1,task.getTitle());
+            stmt.setString(2,task.getBody());
+            stmt.setInt(3,task.isStatus() ? 1:0);
+            stmt.setString(4,task.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            stmt.setString(5,task.getDueTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+            stmt.setString(6,task.getRrule().toString());
+            stmt.setInt(7,categoryId);
+            stmt.setInt(8,task.getPriority().getLevel());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateTask(Task prevTask, Task task) {
+        try {
+
+            PreparedStatement stmt = conn.prepareStatement("SELECT category_id FROM categories WHERE name=?");
+            stmt.setString(1, prevTask.getCategory().getName());
+            ResultSet rs = stmt.executeQuery();
+            int categoryId = rs.next() ? rs.getInt("category_id") : 1;
+
+            stmt = conn.prepareStatement("UPDATE tasks SET title = ?, body = ?, status = ?, due_date = ?, time = ?, rrule = ?, category_id = ?, priority = ? " +
+                    "WHERE title = ? AND body = ? AND status = ? AND due_date = ? AND time = ? AND rrule = ? AND category_id = ? AND priority = ?");
+
+            stmt.setString(1, task.getTitle());
+            stmt.setString(2, task.getBody());
+            stmt.setInt(3, task.isStatus() ? 1 : 0);
+            stmt.setString(4, task.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            stmt.setString(5, task.getDueTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+            stmt.setString(6, task.getRrule().toString());
+            stmt.setInt(7, categoryId);
+            stmt.setInt(8, task.getPriority().getLevel());
+
+            stmt = conn.prepareStatement("SELECT category_id FROM categories WHERE name=?");
+            stmt.setString(1, task.getCategory().getName());
+            rs = stmt.executeQuery();
+            categoryId = rs.next() ? rs.getInt("category_id") : 1;
+
+            stmt.setString(9, prevTask.getTitle());
+            stmt.setString(10, prevTask.getBody());
+            stmt.setInt(11, prevTask.isStatus() ? 1 : 0);
+            stmt.setString(12, prevTask.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            stmt.setString(13, prevTask.getDueTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+            stmt.setString(14, prevTask.getRrule().toString());
+            stmt.setInt(15, categoryId);
+            stmt.setInt(16, prevTask.getPriority().getLevel());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void updateCheck(Task task,boolean status){
+        try{
+            PreparedStatement stmt = conn.prepareStatement("SELECT category_id FROM categories WHERE name=?");
+            stmt.setString(1,task.getCategory().getName());
+            ResultSet rs = stmt.executeQuery();
+            int categoryId = rs.next() ? rs.getInt("category_id"): 1;
+            stmt = conn.prepareStatement("UPDATE tasks SET status = ? WHERE title = ? AND body = ? " +
+                    "AND status = ? AND due_date = ? AND time = ? AND rrule = ? AND category_id = ? AND priority = ?");
+
+            stmt.setInt(1,status ? 1:0);
+            stmt.setString(2,task.getTitle());
+            stmt.setString(3,task.getBody());
+            stmt.setInt(4,task.isStatus() ? 1:0);
+            stmt.setString(5,task.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            stmt.setString(6,task.getDueTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+            stmt.setString(7,task.getRrule().toString());
+            stmt.setInt(8,categoryId);
+            stmt.setInt(9,task.getPriority().getLevel());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 //    public static PriorityQueue<>
 //    public static ArrayList<String> test(){

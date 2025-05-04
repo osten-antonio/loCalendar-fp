@@ -43,3 +43,4 @@ build/
 *.db-shm
 *.db-journal
 
+entries.db

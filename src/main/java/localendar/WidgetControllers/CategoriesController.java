@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-public class CategoriesController implements Initializable {
+public class CategoriesController {
     @FXML
     private VBox categoryArea;
 
@@ -26,15 +26,29 @@ public class CategoriesController implements Initializable {
 
     private HashMap<Integer, Category> categories;
 
-    Database db;
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        db = new Database();
-        categories=db.getCategories(true);
-        categories.keySet().forEach(key ->
-            generateCategoryItem(categories.get(key))
-        );
 
+    private MainController main;
+
+    Database db;
+//    @Override
+//    public void initialize(URL location, ResourceBundle resources) {
+//        db = new Database();
+//        categories=db.getCategories(true);
+//        categories.keySet().forEach(key ->
+//            generateCategoryItem(categories.get(key))
+//        );
+//
+//    }
+
+    public void setMain(MainController main){
+        this.main = main;
+        categories=main.getCategories();
+        generateAllCategoryItems();
+    }
+
+    private void generateAllCategoryItems() {
+        categoryArea.getChildren().clear(); // clear existing, if any
+        categories.keySet().forEach(key -> generateCategoryItem(categories.get(key)));
     }
 
     public void generateCategoryItem(Category category){
@@ -42,6 +56,7 @@ public class CategoriesController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/CategoryItem.fxml"));
             Node item = fxmlLoader.load();
             CategoriesItemController controller = fxmlLoader.getController();
+            controller.setMain(main);
             controller.setCallerController(this);
             controller.setCategory(category);
 
@@ -61,6 +76,7 @@ public class CategoriesController implements Initializable {
             Parent categoriesRoot = loader.load();
             CategoryCreationController controller = loader.getController();
             controller.setCaller(this);
+            controller.setMain(main);
 
             Stage categoriesWindow = new Stage();
             categoriesWindow.setTitle("Categories");

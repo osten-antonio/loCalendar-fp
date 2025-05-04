@@ -134,26 +134,53 @@ public class Task {
     }
 
     public Iterator<Task> iterator(LocalDate limitDate) {
-        // TODO Chekc if there is recurrence rule first
+        if (rrule == null || rrule.getFrequency() == Frequency.NONE) {
+            return new Iterator<Task>() {
+                boolean hasNext = true;
+
+                @Override
+                public boolean hasNext() {
+                    return hasNext;
+                }
+
+                @Override
+                public Task next() {
+                    hasNext = false;
+                    return Task.this;
+                }
+            };
+        }
+
+        Iterator<LocalDate> recurrenceDates = rrule.generateInstances(dueDate).iterator();
+
         return new Iterator<Task>() {
-            private final Iterator<LocalDate> recurrenceDates =
-                    (rrule.getFrequency() != Frequency.NONE)
-                            ? rrule.iterator()
-                            : null;
+            LocalDate nextDate = null;
 
             @Override
             public boolean hasNext() {
-                if (recurrenceDates == null || !recurrenceDates.hasNext()) {
-                    return false;
+                while (recurrenceDates.hasNext()) {
+                    nextDate = recurrenceDates.next();
+                    if (limitDate == null || !nextDate.isAfter(limitDate)) {
+                        return true;
+                    }
                 }
-                LocalDate nextDate = recurrenceDates.next();
-                return (limitDate == null || !nextDate.isAfter(limitDate));
+                return false;
             }
 
             @Override
             public Task next() {
-                return new Task(title, body, status, recurrenceDates.next(), dueTime, priority.getLevel(), rrule.toString(), category);
+                if (nextDate == null && !hasNext()) {
+                    throw new IllegalStateException("No more recurrence dates.");
+                }
+
+                Task recurringInstance = new Task(
+                        title, body, status, nextDate, dueTime,
+                        priority.getLevel(), rrule.toString(), category
+                );
+                nextDate = null; // Reset for next call
+                return recurringInstance;
             }
         };
     }
+
 }

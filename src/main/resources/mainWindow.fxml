@@ -4,6 +4,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.SplitPane?>
@@ -16,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="localendar.WidgetControllers.MainController">
+<AnchorPane fx:id="root" prefHeight="730.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="localendar.WidgetControllers.MainController">
     <children>
         <SplitPane dividerPositions="0.5" layoutX="15.0" layoutY="12.0" orientation="VERTICAL" prefHeight="690.0" prefWidth="1252.0">
             <items>
@@ -40,313 +41,314 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <VBox fx:id="b33" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                        <VBox fx:id="b33" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
                            <children>
-                              <Text fx:id="l33" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l33" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b3" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+                        <VBox fx:id="b3" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
                            <children>
-                              <Text fx:id="l3" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l3" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b10" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <VBox fx:id="b10" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <children>
-                              <Text fx:id="l10" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l10" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b8" prefHeight="69.0" prefWidth="182.0" GridPane.rowIndex="1">
+                        <VBox fx:id="b8" alignment="TOP_CENTER" prefHeight="69.0" prefWidth="182.0" GridPane.rowIndex="1">
                            <children>
-                              <Text fx:id="l8" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="112.53670501708984">
+                              <Text fx:id="l8" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="b9" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <Text fx:id="l9" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="b16" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <Text fx:id="l16" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="b29" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
+                           <children>
+                              <Text fx:id="l29" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
                                  </font></Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b9" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <VBox fx:id="b22" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
                            <children>
-                              <Text fx:id="l9" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l22" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </VBox>
-                        <VBox fx:id="b16" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <children>
-                              <Text fx:id="l16" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </VBox>
-                        <VBox fx:id="b29" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
-                           <children>
-                              <Text fx:id="l29" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font></Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b22" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+                        <VBox fx:id="b15" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                            <children>
-                              <Text fx:id="l22" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l15" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font></Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b15" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+                        <VBox fx:id="b31" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                            <children>
-                              <Text fx:id="l15" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l31" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font></Text>
-                           </children>
-                        </VBox>
-                        <VBox fx:id="b31" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
-                           <children>
-                              <Text fx:id="l31" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b24" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                        <VBox fx:id="b24" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                            <children>
-                              <Text fx:id="l24" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l24" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b17" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <VBox fx:id="b17" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                            <children>
-                              <Text fx:id="l17" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l17" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b30" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <VBox fx:id="b30" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <children>
-                              <Text fx:id="l30" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l30" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b23" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <VBox fx:id="b23" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
-                              <Text fx:id="l23" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l23" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b26" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                        <VBox fx:id="b26" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
                            <children>
-                              <Text fx:id="l26" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l26" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b19" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                        <VBox fx:id="b19" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
                            <children>
-                              <Text fx:id="l19" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l19" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b12" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                        <VBox fx:id="b12" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
                            <children>
-                              <Text fx:id="l12" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l12" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b5" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4">
+                        <VBox fx:id="b5" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4">
                            <children>
-                              <Text fx:id="l5" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l5" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b32" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                        <VBox fx:id="b32" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                            <children>
-                              <Text fx:id="l32" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l32" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b25" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                        <VBox fx:id="b25" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
                            <children>
-                              <Text fx:id="l25" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l25" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b18" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                        <VBox fx:id="b18" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
                            <children>
-                              <Text fx:id="l18" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l18" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b11" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                        <VBox fx:id="b11" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                            <children>
-                              <Text fx:id="l11" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l11" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b4" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3">
+                        <VBox fx:id="b4" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3">
                            <children>
-                              <Text fx:id="l4" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l4" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0" />
-                        <VBox fx:id="b27" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                        <VBox fx:id="b27" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
                            <children>
-                              <Text fx:id="l27" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l27" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b2" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+                        <VBox fx:id="b2" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                            <children>
-                              <Text fx:id="l2" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l2" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font></Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b34" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                        <VBox fx:id="b34" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
                            <children>
-                              <Text fx:id="l34" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l34" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b6" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5">
+                        <VBox fx:id="b6" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5">
                            <children>
-                              <Text fx:id="l6" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l6" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b13" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                        <VBox fx:id="b13" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
                            <children>
-                              <Text fx:id="l13" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l13" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b20" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                        <VBox fx:id="b20" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
                            <children>
-                              <Text fx:id="l20" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l20" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b1" prefHeight="200.0" prefWidth="100.0">
+                        <VBox fx:id="b1" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <Text fx:id="l1" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="180.53671073913574">
+                              <Text fx:id="l1" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b21" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                        <VBox fx:id="b21" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
                            <children>
-                              <Text fx:id="l21" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l21" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b14" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                        <VBox fx:id="b14" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
                            <children>
-                              <Text fx:id="l14" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l14" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b7" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6">
+                        <VBox fx:id="b7" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6">
                            <children>
-                              <Text fx:id="l7" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l7" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b35" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
+                        <VBox fx:id="b35" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
                            <children>
-                              <Text fx:id="l35" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l35" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <VBox fx:id="b28" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="3">
+                        <VBox fx:id="b28" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="3">
                            <children>
-                              <Text fx:id="l28" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                              <Text fx:id="l28" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
@@ -377,9 +379,9 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="729.0" prefWidth="241.0">
                                  <children>
-                                    <ComboBox fx:id="sort_priority" layoutX="7.0" layoutY="33.0" prefHeight="27.0" prefWidth="229.0" promptText="↕    Priority" style="-fx-border-color: #AAAAAA;" />
-                                    <ComboBox fx:id="sort_due" layoutX="7.0" layoutY="69.0" prefHeight="27.0" prefWidth="229.0" promptText="📆 Due date" style="-fx-border-color: #AAAAAA;" />
-                                    <ComboBox fx:id="sort_time" layoutX="7.0" layoutY="106.0" prefHeight="27.0" prefWidth="229.0" promptText="🕓 Due time" style="-fx-border-color: #AAAAAA;" />
+                                    <ComboBox fx:id="sort_priority" layoutX="42.0" layoutY="33.0" onAction="#filter" prefHeight="27.0" prefWidth="194.0" promptText="↕    Priority" style="-fx-border-color: #AAAAAA;" />
+                                    <ComboBox fx:id="sort_due" disable="true" layoutX="42.0" layoutY="69.0" onAction="#filter" prefHeight="27.0" prefWidth="194.0" promptText="📆 Due date" style="-fx-border-color: #AAAAAA;" />
+                                    <ComboBox fx:id="sort_time" disable="true" layoutX="42.0" layoutY="106.0" onAction="#filter" prefHeight="27.0" prefWidth="194.0" promptText="🕓 Due time" style="-fx-border-color: #AAAAAA;" />
                                     <Text layoutX="8.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort by:">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
@@ -390,8 +392,8 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Text>
-                                    <CheckBox layoutX="9.0" layoutY="163.0" mnemonicParsing="false" text="Completed" />
-                                    <CheckBox layoutX="111.0" layoutY="164.0" mnemonicParsing="false" text="Uncompleted" />
+                                    <CheckBox fx:id="completed" layoutX="9.0" layoutY="163.0" mnemonicParsing="false" onAction="#filter" text="Completed" />
+                                    <CheckBox fx:id="uncompleted" layoutX="111.0" layoutY="164.0" mnemonicParsing="false" onAction="#filter" text="Uncompleted" />
                                     <Text layoutX="10.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due date range:">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
@@ -402,13 +404,13 @@
                                           <Font size="13.0" />
                                        </font>
                                     </Text>
-                                    <DatePicker layoutX="59.0" layoutY="227.0" prefHeight="26.0" prefWidth="178.0" />
+                                    <DatePicker fx:id="dateFrom" layoutX="59.0" layoutY="227.0" onAction="#filter" prefHeight="26.0" prefWidth="178.0" />
                                     <Text layoutX="10.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To:">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
                                     </Text>
-                                    <DatePicker layoutX="59.0" layoutY="260.0" prefHeight="26.0" prefWidth="178.0" />
+                                    <DatePicker fx:id="dateTo" layoutX="59.0" layoutY="260.0" onAction="#filter" prefHeight="26.0" prefWidth="178.0" />
                                     <Text layoutX="10.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due time range (24 hr format):">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
@@ -426,18 +428,18 @@
                                     </Text>
                                     <Text layoutX="124.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
                                     <Text layoutX="124.0" layoutY="396.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
-                                    <CheckBox layoutX="217.0" layoutY="315.0" mnemonicParsing="false" />
-                                    <CheckBox layoutX="120.0" layoutY="196.0" mnemonicParsing="false" />
+                                    <CheckBox fx:id="enableTimeRange" layoutX="217.0" layoutY="315.0" mnemonicParsing="false" onAction="#enableDueTimeFilter" />
+                                    <CheckBox fx:id="enableDateRange" layoutX="120.0" layoutY="196.0" mnemonicParsing="false" onAction="#enableDueDateFilter" />
                                     <Text layoutX="13.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categories:">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Text>
-                                    <Button layoutX="179.0" layoutY="416.0" mnemonicParsing="false" text="+" />
-                                    <Button layoutX="208.0" layoutY="416.0" mnemonicParsing="false" text="🗑" />
+                                    <Button layoutX="179.0" layoutY="416.0" mnemonicParsing="false" onMouseClicked="#selectCategory" text="+" />
+                                    <Button layoutX="208.0" layoutY="416.0" mnemonicParsing="false" onMouseClicked="#deleteSelectedCategory" text="🗑" />
                                     <ScrollPane layoutX="13.0" layoutY="446.0" prefHeight="117.0" prefWidth="222.0">
                                        <content>
-                                          <VBox prefHeight="28.0" prefWidth="204.0" />
+                                          <VBox fx:id="categoryFilterList" prefHeight="28.0" prefWidth="210.0" />
                                        </content>
                                     </ScrollPane>
                                     <Text layoutX="13.0" layoutY="586.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recurring rules">
@@ -445,17 +447,21 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Text>
-                                    <Button layoutX="179.0" layoutY="569.0" mnemonicParsing="false" text="+" />
-                                    <Button layoutX="208.0" layoutY="569.0" mnemonicParsing="false" text="🗑" />
-                                    <ScrollPane layoutX="13.0" layoutY="599.0" prefHeight="117.0" prefWidth="222.0">
+                                    <Button layoutX="179.0" layoutY="569.0" mnemonicParsing="false" onMouseClicked="#selectRrule" text="+" />
+                                    <Button layoutX="208.0" layoutY="569.0" mnemonicParsing="false" onMouseClicked="#deleteSelectedRrule" text="🗑" />
+                                    <ScrollPane layoutX="13.0" layoutY="625.0" prefHeight="91.0" prefWidth="222.0">
                                        <content>
-                                          <VBox prefHeight="28.0" prefWidth="204.0" />
+                                          <VBox fx:id="rRuleFilterList" prefHeight="28.0" prefWidth="210.0" />
                                        </content>
                                     </ScrollPane>
-                                    <Spinner layoutX="56.0" layoutY="345.0" prefHeight="25.0" prefWidth="62.0" />
-                                    <Spinner layoutX="131.0" layoutY="345.0" prefHeight="25.0" prefWidth="62.0" />
-                                    <Spinner layoutX="56.0" layoutY="381.0" prefHeight="25.0" prefWidth="62.0" />
-                                    <Spinner layoutX="130.0" layoutY="381.0" prefHeight="25.0" prefWidth="62.0" />
+                                    <Spinner fx:id="fromHour" layoutX="56.0" layoutY="345.0" prefHeight="25.0" prefWidth="62.0" />
+                                    <Spinner fx:id="fromMinute" layoutX="131.0" layoutY="345.0" prefHeight="25.0" prefWidth="62.0" />
+                                    <Spinner fx:id="toHour" layoutX="56.0" layoutY="381.0" prefHeight="25.0" prefWidth="62.0" />
+                                    <Spinner fx:id="toMinute" layoutX="130.0" layoutY="381.0" prefHeight="25.0" prefWidth="62.0" />
+                                    <Text layoutX="20.0" layoutY="617.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Format: Frequency | Interval | End date" />
+                                    <RadioButton fx:id="priorityRadio" layoutX="16.0" layoutY="38.0" mnemonicParsing="false" selected="true" />
+                                    <RadioButton fx:id="dueDateRadio" layoutX="16.0" layoutY="74.0" mnemonicParsing="false" />
+                                    <RadioButton fx:id="dueTimeRadio" layoutX="16.0" layoutY="111.0" mnemonicParsing="false" />
                                  </children>
                               </AnchorPane>
                            </content>
@@ -466,7 +472,7 @@
                      <children>
                         <Button layoutX="8.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#openCreationScreen" prefHeight="25.0" prefWidth="97.0" text="Create new" />
                         <Button layoutX="113.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#openCategoriesScreen" prefHeight="25.0" prefWidth="97.0" text="Categories" />
-                        <TextField layoutX="785.0" layoutY="8.0" prefHeight="25.0" prefWidth="181.0" promptText="Search 🔎" />
+                        <TextField fx:id="searchBar" layoutX="785.0" layoutY="8.0" onKeyTyped="#search" prefHeight="25.0" prefWidth="181.0" promptText="Search 🔎" />
                         <ScrollPane layoutX="13.0" layoutY="50.0" prefHeight="239.0" prefWidth="949.0">
                            <content>
                               <VBox fx:id="taskArea" fillWidth="false" prefHeight="200.0" prefWidth="933.0" />

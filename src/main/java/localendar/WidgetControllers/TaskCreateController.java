@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -16,6 +17,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TaskCreateController implements Initializable {
@@ -37,10 +39,13 @@ public class TaskCreateController implements Initializable {
     @FXML
     private DatePicker dueDate;
 
+    @FXML
+    private Button createButton;
+
 
     // Recurrence rule
     private LocalDate startDate;
-    private LocalDate endDate;
+    private Optional<LocalDate> endDate;
     private Frequency freq;
     private Integer interval;
 
@@ -48,9 +53,11 @@ public class TaskCreateController implements Initializable {
     // Categories
     private HashMap<Integer, Category> categories;
 
+    private MainController main;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        endDate = null;
+        endDate = Optional.empty();
         interval = null;
         freq=null;
         // Set text formatter for the task body, to limit to 5000 character
@@ -61,7 +68,7 @@ public class TaskCreateController implements Initializable {
         dueHour.setValueFactory(
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(
                         0, // Min
-                        24, // Max
+                        23, // Max
                         0 // Default
                 )
         );
@@ -122,17 +129,17 @@ public class TaskCreateController implements Initializable {
     }
 
     public void setEndDate(LocalDate dateEnd){
-        endDate=dateEnd;
+        endDate=Optional.of(dateEnd);
     }
 
     public void setInterval(int interval){
         this.interval= interval;
     }
 
+    public void setMain(MainController main){ this.main = main;}
 
     @FXML
     private void createTask(){
-        // TODO: Backend here
         boolean valid = !taskTitle.getText().isBlank() && dueDate.getValue()!=null &&
                 !prioritySelector.getValue().isBlank();
         if(valid){
@@ -142,7 +149,7 @@ public class TaskCreateController implements Initializable {
             int level = selectedPriority.getLevel();
             String sqlFreq = freq == null ? "" : freq.toString();
             String sqlInterval = interval == null ? "" : interval.toString();
-            String sqlEndDate = endDate == null ? "" : endDate.format(formatter);
+            String sqlEndDate = endDate == null ? "" : endDate.get().format(formatter);
             Task resTask = new Task(taskTitle.getText(),taskBody.getText(),false,dueDate.getValue(),
                     LocalTime.of(dueHour.getValue(),dueMinute.getValue()), level,
                     String.format("FREQ=%s;INTERVAL=%s;UNTIL=%s",sqlFreq,sqlInterval,sqlEndDate),
@@ -152,16 +159,72 @@ public class TaskCreateController implements Initializable {
             db.writeTask(resTask);
             db.closeConnection();
 
+            // TODO from main.your data strucutre getter, add your data strucutre
+            // TODO main.generateTaskItem(resTask)
+
             Stage stage = (Stage) taskTitle.getScene().getWindow();
             stage.close();
         }
         else{
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
-            alert.setHeaderText("Duplicate data");
-            alert.setContentText("Category already exists");
+            alert.setHeaderText("Invalid data");
+            alert.setContentText("Invalid field exists");
             alert.showAndWait();
         }
+    }
+
+    public void setEdit(Task task){
+        createButton.setText("Edit");
+
+        freq=task.getRrule().getFrequency();
+        endDate=task.getRrule().getEndDate();
+        interval = task.getRrule().getInterval();
+
+        taskBody.setText(task.getBody());
+        taskTitle.setText(task.getTitle());
+
+        dueHour.getValueFactory().setValue(task.getDueTime().getHour());
+        dueMinute.getValueFactory().setValue(task.getDueTime().getMinute());
+        dueDate.setValue(task.getDueDate());
+        categorySelector.setValue(task.getCategory().getName());
+        prioritySelector.setValue(task.getPriority().toString());
+
+        createButton.setOnMouseClicked(e-> {
+            boolean valid = !taskTitle.getText().isBlank() && dueDate.getValue() != null &&
+                    !prioritySelector.getValue().isBlank();
+            if (valid) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String selected = prioritySelector.getValue().toUpperCase();
+                Priority selectedPriority = Priority.valueOf(selected);
+                int level = selectedPriority.getLevel();
+                String sqlFreq = freq == null ? "" : freq.toString();
+                String sqlInterval = interval == null ? "" : interval.toString();
+                String sqlEndDate = endDate == null ? "" : endDate.get().format(formatter);
+                Database db = new Database();
+                Task resTask = new Task(taskTitle.getText(), taskBody.getText(), false, dueDate.getValue(),
+                        LocalTime.of(dueHour.getValue(), dueMinute.getValue()), level,
+                        String.format("FREQ=%s;INTERVAL=%s;UNTIL=%s", sqlFreq, sqlInterval, sqlEndDate),
+                        categories.get(Collections.max(categories.keySet()))
+                );
+                // TODO Data strucutre here
+                //  main. ur data strucutre getter, loop through find a match with prevTask, replace that with resTask
+
+
+                db.updateTask(task, resTask);
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid data");
+                alert.setContentText("Invalid field exists");
+                alert.showAndWait();
+            }
+
+        });
+
+
+
     }
 
     @FXML
@@ -177,7 +240,7 @@ public class TaskCreateController implements Initializable {
             if(freq == null) freqString = "";
             else freqString = freq.toString();
 
-            controller.setValues(freqString,endDate,interval);
+            controller.setValues(freqString,endDate.orElse(null),interval);
 
             Stage recurrenceWindow = new Stage();
             recurrenceWindow.setTitle("Recurrence rule");
