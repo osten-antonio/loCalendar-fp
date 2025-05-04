@@ -21,7 +21,8 @@ public class CalendarTaskItemController {
     @FXML
     private Rectangle categorySquare;
     private Task task;
-    AnchorPane callerRoot;
+    private MainController main;
+    private AnchorPane callerRoot;
     public void setTask(Task task){
         this.task = task;
         if(task.getTitle().length() > 7) name.setText(task.getTitle().substring(0,5)+"...");
@@ -30,9 +31,11 @@ public class CalendarTaskItemController {
         time.setText(task.getDueTime().format(DateTimeFormatter.ofPattern("HH:mm")));
         categoryName.setText(task.getCategory().getName());
     }
-    public void setCaller(AnchorPane caller){
-        this.callerRoot = caller;
-
+    public void setMain(MainController main){
+        this.main = main;
+    }
+    public void setRoot(AnchorPane root){
+        this.callerRoot=root;
     }
 
     @FXML
@@ -41,7 +44,9 @@ public class CalendarTaskItemController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/OpenTask.fxml"));
 
             Parent openTask = loader.load();
-
+            OpenTaskController controller = loader.getController();
+            controller.setMain(main);
+            controller.setTask(task);
             Stage taskWindow = new Stage();
             taskWindow.setTitle(task.getTitle());
             taskWindow.setScene(new Scene(openTask, 692, 411));

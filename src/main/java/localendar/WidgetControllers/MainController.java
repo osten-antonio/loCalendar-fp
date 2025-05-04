@@ -534,7 +534,9 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    public void refreshCache(){
+        cache = new LinkedHashMap<>();
+    }
     // TODO create a getter for your data structure
 
     private Text createItem(String text, boolean options) {

@@ -68,7 +68,6 @@ public class CategoriesItemController {
 
     @FXML
     private void edit(){
-        // TODO
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/CategoryCreation.fxml"));
 

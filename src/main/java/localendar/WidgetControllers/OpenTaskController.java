@@ -1,12 +1,16 @@
 package localendar.WidgetControllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import localendar.Task;
 
 import java.net.URL;
@@ -22,6 +26,7 @@ public class OpenTaskController implements Initializable {
     private TextArea taskBody;
     @FXML
     private Rectangle categoryRect;
+    private MainController main;
 
     private Task task;
     @Override
@@ -44,9 +49,27 @@ public class OpenTaskController implements Initializable {
         rRuleInterval.setText(String.valueOf(task.getRrule().getInterval()));
         rRuleEndDate.setText(task.getRrule().getEndDate().toString());
     }
-
+    public void setMain(MainController main){
+        this.main = main;
+    }
     @FXML
     private void edit(){
-        // TODO: after modifyingg the task create controller ot make edit func
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TaskCreation.fxml"));
+            Parent taskRoot = loader.load();
+            TaskCreateController controler = loader.getController();
+            controler.setMain(main);
+            controler.setEdit(task);
+
+            Stage taskWindow = new Stage();
+            taskWindow.setTitle("Create task");
+            taskWindow.setScene(new Scene(taskRoot, 600, 400));
+            taskWindow.setResizable(false);
+
+
+            taskWindow.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

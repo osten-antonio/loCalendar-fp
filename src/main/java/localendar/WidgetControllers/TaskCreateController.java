@@ -161,7 +161,7 @@ public class TaskCreateController implements Initializable {
 
             // TODO from main.your data strucutre getter, add your data strucutre
             // TODO main.generateTaskItem(resTask)
-
+            main.refreshCache();
             Stage stage = (Stage) taskTitle.getScene().getWindow();
             stage.close();
         }
@@ -210,7 +210,7 @@ public class TaskCreateController implements Initializable {
                 // TODO Data strucutre here
                 //  main. ur data strucutre getter, loop through find a match with prevTask, replace that with resTask
 
-
+                main.refreshCache();
                 db.updateTask(task, resTask);
             }
             else{
