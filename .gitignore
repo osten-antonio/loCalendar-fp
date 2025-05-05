@@ -43,5 +43,3 @@ build/
 *.db-journal
 
 entries.db
-
-entries.db
