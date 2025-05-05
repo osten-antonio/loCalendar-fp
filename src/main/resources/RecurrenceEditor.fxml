@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="210.0" prefWidth="341.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="localendar.WidgetControllers.RecurrenceEditorController">
+<AnchorPane prefHeight="193.0" prefWidth="341.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="localendar.WidgetControllers.RecurrenceEditorController">
    <children>
       <Text layoutX="28.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Frequency:" />
       <ComboBox fx:id="freqBox" layoutX="141.0" layoutY="27.0" prefHeight="25.0" prefWidth="174.0" />
       <Text layoutX="29.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date (Optional):" />
       <DatePicker fx:id="endDatePicker" layoutX="141.0" layoutY="94.0" />
-      <Button layoutX="281.0" layoutY="141.0" mnemonicParsing="false" onMouseClicked="#setRecurrence" text="Set" />
+      <Button fx:id="setButton" layoutX="281.0" layoutY="141.0" mnemonicParsing="false" onMouseClicked="#setRecurrence" text="Set" />
       <Button layoutX="30.0" layoutY="140.0" mnemonicParsing="false" onMouseClicked="#clear" text="Clear" />
       <Text layoutX="29.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Interval:" />
       <Spinner fx:id="intervalSpin" layoutX="142.0" layoutY="61.0" prefHeight="25.0" prefWidth="172.0" />

@@ -13,6 +13,9 @@ import javafx.stage.Stage;
 import localendar.Category;
 import localendar.Database;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CategoriesItemController {
     @FXML
     private Text categoryColorLabel,categoryName;
@@ -25,7 +28,13 @@ public class CategoriesItemController {
 
     private CategoriesController callerController;
 
+    private HashMap<Integer, Category> categoryHashMap;
+
     private Category category;
+
+    private MainController main;
+
+
     public void setCategory(Category category){
         this.category=category;
         setCategoryName(category.getName());
@@ -35,6 +44,7 @@ public class CategoriesItemController {
     public void setCategoryName(String name){
         categoryName.setText(name);
     }
+
 
     public void setCategoryColorLabel(String color){
         categoryColorLabel.setText(color);
@@ -49,9 +59,15 @@ public class CategoriesItemController {
         callerController = caller;
     }
 
+    public void setMain(MainController main){
+        this.main = main;
+        categoryHashMap = main.getCategories();
+    }
+
+
+
     @FXML
     private void edit(){
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/CategoryCreation.fxml"));
 
@@ -89,7 +105,14 @@ public class CategoriesItemController {
                 callerController.refreshCategories();
             }
         });
-
+        for (Map.Entry<Integer, Category> entry : categoryHashMap.entrySet()) {
+            if (entry.getValue().equals(category)) {
+                categoryHashMap.remove(entry.getKey());
+            }
+        }
+        // TODO loop through every task in the data structure, if the category of that task matches this.category
+        // TODO change it to categoryHashMap.get(1)
+        // TODO then pass to main.refreshTaskList(main.YOUR DATA STRUCUTERE GETTER FUNCTION)
     }
 
 }

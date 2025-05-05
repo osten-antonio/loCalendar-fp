@@ -1,14 +1,24 @@
 package localendar.WidgetControllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
+import localendar.Category;
+import localendar.Database;
 import localendar.Priority;
 import localendar.Task;
 import javafx.scene.shape.Rectangle;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 public class TaskItemController {
     @FXML
@@ -20,7 +30,17 @@ public class TaskItemController {
     @FXML
     private Button editButton, deleteButton;
 
+    @FXML
+    private CheckBox taskStatus;
+
+    private Task task;
+
+    private AnchorPane callerRoot;
+
+    private MainController main;
+
     public void setTask(Task task){
+        this.task=task;
         setTaskTitle(task.getTitle());
         setDueDate(task.getDueDate().format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy")));
         setDueTime(task.getDueTime().toString());
@@ -66,5 +86,83 @@ public class TaskItemController {
         dueTime.setText(time);
     }
 
+    public void setCallerRoot(AnchorPane root){ callerRoot=root; }
+
+    public void setMain(MainController main){ this.main = main;}
+
+    @FXML
+    private void openTask(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/OpenTask.fxml"));
+
+            Parent openTask = loader.load();
+
+            Stage taskWindow = new Stage();
+            taskWindow.setTitle(task.getTitle());
+            taskWindow.setScene(new Scene(openTask, 692, 411));
+            taskWindow.setResizable(false);
+
+            callerRoot.setDisable(true); // Disbales the main window when category screen is opened
+
+            taskWindow.setOnHidden(event -> {
+                callerRoot.setDisable(false);  // Makes it enabled again when category is cllosed
+            });
+
+            taskWindow.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void delete(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Are you sure you want to delete?");
+        alert.setContentText("Click OK to proceed, or Cancel to abort.");
+        alert.showAndWait().ifPresent(response -> {
+            if (response.getText().equals("OK")) {
+                Database db = new Database();
+                db.deleteTask(task);
+                db.closeConnection();
+                // TODO loop through every task in the data structure, from your getter function at main
+                // TODO if it matches remove it
+                // TODO then main.refreshTaskList(main.YOUR DATA STRUCUTERE GETTER FUNCTION)
+            }
+        });
+    }
+
+    @FXML
+    private void edit(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TaskCreation.fxml"));
+            Parent taskRoot = loader.load();
+            TaskCreateController controler = loader.getController();
+            controler.setMain(main);
+            controler.setEdit(task);
+
+            Stage taskWindow = new Stage();
+            taskWindow.setTitle("Create task");
+            taskWindow.setScene(new Scene(taskRoot, 600, 400));
+            taskWindow.setResizable(false);
+
+            callerRoot.setDisable(true); // Disbales the main window when category screen is opened
+
+            taskWindow.setOnHidden(event -> {
+                callerRoot.setDisable(false);  // Makes it enabled again when category is cllosed
+            });
+
+            taskWindow.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void setStatus(){
+        Database db= new Database();
+        db.updateCheck(task,taskStatus.isSelected());
+        db.closeConnection();
+    }
 
 }
