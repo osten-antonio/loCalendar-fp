@@ -26,13 +26,10 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.util.ResourceBundle;
 import localendar.TaskComparator;
-
 
 
 public class MainController implements Initializable {
