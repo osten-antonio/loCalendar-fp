@@ -96,7 +96,8 @@ public class TaskItemController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/OpenTask.fxml"));
 
             Parent openTask = loader.load();
-
+            OpenTaskController controller=loader.getController();
+            controller.setTask(task);
             Stage taskWindow = new Stage();
             taskWindow.setTitle(task.getTitle());
             taskWindow.setScene(new Scene(openTask, 692, 411));
