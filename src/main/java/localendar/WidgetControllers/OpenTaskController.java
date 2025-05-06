@@ -19,13 +19,13 @@ import java.util.ResourceBundle;
 
 public class OpenTaskController implements Initializable {
     @FXML
-    private Text categoryText, dueDate, dueTime, rRuleFrequency, rRuleInterval, rRuleEndDate;
+    private Text categoryText, dueDate, dueTime, rRuleFrequency, rRuleInterval, rRuleEndDate, priorityText;
     @FXML
     private TextField taskTitle;
     @FXML
     private TextArea taskBody;
     @FXML
-    private Rectangle categoryRect;
+    private Rectangle categoryRect, priorityRec;
     private MainController main;
 
     private Task task;
@@ -38,6 +38,8 @@ public class OpenTaskController implements Initializable {
         this.task = task;
         categoryText.setText(task.getCategory().getName());
         categoryRect.setFill(Color.web(task.getCategory().getColor()));
+        priorityText.setText(task.getPriority().toString());
+        priorityRec.setFill(Color.web(task.getPriority().getColor()));
 
         taskTitle.setText(task.getTitle());
         taskBody.setText(task.getBody());
