@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class Task {
     private String title;
@@ -17,7 +18,7 @@ public class Task {
     private Category category;
 
     public Task(String title, String body, boolean status, LocalDate dueDate,
-         LocalTime dueTime, int priority,String rrule, Category category){
+                LocalTime dueTime, int priority,String rrule, Category category){
         setTitle(title);
         setBody(body);
         setStatus(status);
@@ -104,7 +105,30 @@ public class Task {
         }
         return task1.getDueTime().compareTo(task2.getDueTime());
     }
+    public Task copy() {
+        return new Task(
+                this.title,
+                this.body,
+                this.status,
+                this.dueDate,
+                this.dueTime,
+                this.priority.getLevel(),
+                this.rrule != null ? this.rrule.toString() : null,
+                this.category
+        );
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return status == task.status && Objects.equals(title, task.title) && Objects.equals(body, task.body) && Objects.equals(dueDate, task.dueDate) && Objects.equals(dueTime, task.dueTime) && priority == task.priority && Objects.equals(rrule, task.rrule) && Objects.equals(category, task.category);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, body, status, dueDate, dueTime, priority, rrule, category);
+    }
 
     private RecurrenceRule parseRecurrenceRule(String rrule){
         if (rrule == null || rrule.isEmpty() || rrule.equals("FREQ=;INTERVAL=;UNTIL=")) {
@@ -123,12 +147,15 @@ public class Task {
 
                 frequency = Frequency.valueOf(value); // Convert String to Enum
             } else if (part.startsWith("INTERVAL=")) {
+                System.out.println(part.substring(9));
                 interval = Integer.parseInt(part.substring(9));
             } else if (part.startsWith("UNTIL=")) {
-                if(!part.substring(6).isBlank()){
-                    endDate = LocalDate.parse(part.substring(6));
+                String dateStr = part.substring(6);
+                if (!dateStr.isBlank()) {
+                    endDate = LocalDate.parse(dateStr);
                 }
             }
+
         }
         return new RecurrenceRule(frequency, interval, endDate);
     }
@@ -156,16 +183,21 @@ public class Task {
         return new Iterator<Task>() {
             LocalDate nextDate = null;
 
+
             @Override
             public boolean hasNext() {
                 while (recurrenceDates.hasNext()) {
-                    nextDate = recurrenceDates.next();
-                    if (limitDate == null || !nextDate.isAfter(limitDate)) {
-                        return true;
+                    LocalDate candidate = recurrenceDates.next();
+                    if (limitDate != null && candidate.isAfter(limitDate)) {
+                        return false;
                     }
+                    nextDate = candidate;
+                    return true;
                 }
                 return false;
             }
+
+
 
             @Override
             public Task next() {
@@ -177,10 +209,11 @@ public class Task {
                         title, body, status, nextDate, dueTime,
                         priority.getLevel(), rrule.toString(), category
                 );
-                nextDate = null; // Reset for next call
+                nextDate = null;
                 return recurringInstance;
             }
         };
     }
+
 
 }

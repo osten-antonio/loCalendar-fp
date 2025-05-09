@@ -275,7 +275,7 @@ public class MainController implements Initializable {
         int daysInNextMonth = (totalDaysInCalendar <= 35) ? (35 - totalDaysInCalendar) : 0;
         if (cache.containsKey(curDate.toString())) {
             /* TODO replace list with your data strucutre
-            Map<Integer, List<Node>> dayToNodes = cache.get(curDate.toString());
+            Map<LocalDate, List<Node>> dayToNodes = cache.get(curDate.toString());
             if (dayToNodes != null) {
                 // Load task nodes from cache and place them in the calendar grid
                 for (int day = 1; day <= 35; day++) {
@@ -304,7 +304,7 @@ public class MainController implements Initializable {
                                     CalendarTaskItemController controller = (CalendarTaskItemController) node.getUserData();
                                     if (controller != null) {
                                         Task task = controller.getTask();
-                                        String displayString = String.format("%s @ %s", task.getTitle(), task.getDueTime()); // Add more fields if needed
+                                        String displayString = String.format("%s @ %s", task.getTitle(), task.getDueTime());
                                         // Ensure uniqueness by adding a counter if needed
                                         while (taskDisplayMap.containsKey(displayString)) {
                                             displayString += " ";
@@ -344,8 +344,8 @@ public class MainController implements Initializable {
                                         callerRoot.setDisable(true);
                                         taskWindow.setOnHidden(event -> callerRoot.setDisable(false));
                                         taskWindow.show();
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                                    } catch (Exception er) {
+                                        er.printStackTrace();
                                     }
                             });
                             monthDayLabels.get(targetBoxIndex).getChildren().add(viewMoreLabel);
@@ -357,8 +357,7 @@ public class MainController implements Initializable {
                         }
                     }
                 }
-
-                return; // Done rendering from cache — skip building from scratch
+                return; // skip building from scratch
             }
 
              */
@@ -370,7 +369,7 @@ public class MainController implements Initializable {
         /*
         For reference: private Map<String,Map<Integer,YOURDATA_STRUCTURE<Task>>> cache;
         TODO
-         create a hashmap of <Integer,YOUR_DATASTRUCTURE<Node>>,
+         create a hashmap of <LocalDate,YOUR_DATASTRUCTURE<Node>>,
          and add each task of every day (so every unique instance of task's date)
          to your data structure, MAKE SURE YOU ADD IT BASED ON THE CORRECT ORDER OF DUE TIME
          after adding all of the task within the day, hashmap.put<DAY,YOUR_DATASTRUCTURE>
@@ -380,7 +379,7 @@ public class MainController implements Initializable {
          currentMonth.atDay(1).minusDay(daysInPrevMonth)
          currentMonth.atEndOfMonth().plusDays(daysInNextMonth)
           include recurrence rule:
-             for (Task task : allTasks) {
+             for (Task task : tasks) {
                 if (task.getRrule().getFrequency() != Frequency.NONE) {
                     Iterator<Task> iterator = task.iterator(endWindow);
                     while (iterator.hasNext()) {
@@ -394,12 +393,11 @@ public class MainController implements Initializable {
                             controller.setCaller(root);
                             controller.setTask(instance);
                             and add item to your hashmap, if there is a key, if there isnt, add a new instance of your data struc
-                            (HASHMAP<Integer,YOUR_DATASTRUCTURE<Node>>).putIfAbsent(day, new ArrayList<>());
-                            (HASHMAP<Integer,YOUR_DATASTRUCTURE<Node>>).get(day).add(node);
-                             Since the HashMap's key is hte day, add Node item to monthDayBox.get(I).add(Node)
-                             where I is the DAY-1;
+                            (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>).putIfAbsent(day, YOUR_dATASTRUCTURE);
+                            (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>).get(day).add(node);
+                            Key to hashmap is instDate
                             int dayOfMonth = task.getDueDate().getDayOfMonth();  // That task
-                            hashmap of <Integer,YOUR_DATASTRUCTURE<Node>>.putIfAbsent(dayOfMonth, new ArrayList<>());
+                            hashmap of <Integer,YOUR_DATASTRUCTURE<Node>>.putIfAbsent(dayOfMonth, YOUR_dATASTRUCTURE);
                             hashmap of <Integer,YOUR_DATASTRUCTURE<Node>>.get(dayOfMonth).add(taskNode);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -417,13 +415,9 @@ public class MainController implements Initializable {
                             controller.setCaller(root);
                             controller.setTask(instance);
                             and add item to your hashmap, if there is a key, if there isnt, add a new instance of your data struc
-                            (HASHMAP<Integer,YOUR_DATASTRUCTURE<Node>>).putIfAbsent(day, new ArrayList<>());
-                            (HASHMAP<Integer,YOUR_DATASTRUCTURE<Node>>).get(day).add(node);
-                             Since the HashMap's key is hte day, add Node item to monthDayBox.get(I).add(Node)
-                             where I is the DAY-1;
-                            int dayOfMonth = task.getDueDate().getDayOfMonth();  // That task
-                            hashmap of <Integer,YOUR_DATASTRUCTURE<Node>>.putIfAbsent(dayOfMonth, new ArrayList<>());
-                            hashmap of <Integer,YOUR_DATASTRUCTURE<Node>>.get(dayOfMonth).add(taskNode);
+                            (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>).putIfAbsent(day, YOUR_DATASTRUCUTRE);
+                            (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>).get(day).add(node);
+                            taskDate is the key
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -433,14 +427,11 @@ public class MainController implements Initializable {
         */
 
         /* Draw UI
-        for (int day = 1; day <= 35; day++) {
-            int actualDay = (day - daysInPrevMonth) > 0 ? (day - daysInPrevMonth) : (daysInPrevMonth - day + daysInPrevMonth + currentMonth.lengthOfMonth());
-            int monthToDisplay = (day <= daysInPrevMonth) ? currentMonth.minusMonths(1).getMonthValue() :
-                    (day > daysInPrevMonth + daysInCurrentMonth) ? currentMonth.plusMonths(1).getMonthValue() : currentMonth.getMonthValue();
-
+        for (int day = 0; day < 35; day++) {
+            LocalDate actualDate = startWindow.plusDays(dayOffset);
             // TODO replace list with your data strucutre
-            List<Node> dayTasks = (HASHMAP<Integer,YOUR_DATASTRUCTURE<Node>>).get(actualDay); // TODO it is the hashmap earlier
-            int targetBoxIndex = day - 1; // Adjust for the box index (0-based)
+            List<Node> dayTasks = (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>).get(actualDate); // TODO it is the hashmap earlier
+            int targetBoxIndex = day; // Adjust for the box index (0-based)
 
             if (dayTasks != null) {
                 if(dayTasks.size()>2){
@@ -503,7 +494,7 @@ public class MainController implements Initializable {
                             }
                         });
                 });
-
+                monthDayLabels.get(targetBoxIndex).getChildren().add(viewMoreLabel);
                 }else{
                     // TODO For each node in your data structure
                     for (Node taskNode : dayTasks) {
@@ -515,7 +506,7 @@ public class MainController implements Initializable {
         }
 
         // Cache the tasks for the current month
-        cache.put(curDate.toString(), (HASHMAP<Integer,YOUR_DATASTRUCTURE<Node>>)); TODO  the one earlier
+        cache.put(curDate.toString(), (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>)); TODO the hashmap is the one earlier
          */
         }
     }
@@ -751,6 +742,7 @@ public class MainController implements Initializable {
                 }
             }
         });
+        filter();
     }
 
     private void addCategoryBox(Category category) {
@@ -789,7 +781,6 @@ public class MainController implements Initializable {
                 }
             }
         }
-        filter();
     }
 
     @FXML
@@ -805,8 +796,30 @@ public class MainController implements Initializable {
 
     @FXML
     private void deleteSelectedRrule(){
+        System.out.println(selectedRruleFilter);
+        System.out.println(rRuleFilter);
         if (!selectedRruleFilter.isBlank()) {
-            rRuleFilter.remove(selectedRruleFilter);
+            String[] parts = selectedRruleFilter.split("\\|");
+            int count = 1;
+            StringBuilder parsed = new StringBuilder();
+            for (String part : parts) {
+                switch(count){
+                    case(1):
+                        parsed.append("FREQ=");
+                        parsed.append(part.trim());
+                        break;
+                    case(2):
+                        parsed.append(";INTERVAL=");
+                        parsed.append(part.trim());
+                        break;
+                    case(3):
+                        parsed.append(";UNTIL=");
+                        parsed.append(part.trim());
+                        break;
+                }
+                count++;
+            }
+            rRuleFilter.remove(parsed.toString());
             rRuleFilterList.getChildren().remove(selectedBox);
             selectedRruleFilter = null;
             selectedBox = null;
@@ -898,6 +911,7 @@ public class MainController implements Initializable {
             toTimeFilter = null;
             fromTimeFilter=null;
         }
+        filter();
     }
 
     @FXML
@@ -911,5 +925,6 @@ public class MainController implements Initializable {
             fromDateFilter = null;
             toDateFilter = null;
         }
+        filter();
     }
 }

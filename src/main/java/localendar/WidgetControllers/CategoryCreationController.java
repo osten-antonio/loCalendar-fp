@@ -6,7 +6,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import localendar.Category;
 import localendar.Database;
-import localendar.Main;
 
 import java.util.HashMap;
 
