@@ -218,7 +218,6 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
         tasks.forEach(task->{
-            System.out.println("A");
             generateTaskItem(task);
         });
         fromHour.valueProperty().addListener((obs, oldVal, newVal) -> filter());

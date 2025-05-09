@@ -42,6 +42,7 @@ public class TaskItemController {
 
     public void setTask(Task task){
         this.task=task;
+        taskStatus.setSelected(task.isStatus());
         setTaskTitle(task.getTitle());
         setDueDate(task.getDueDate().format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy")));
         setDueTime(task.getDueTime().toString());
