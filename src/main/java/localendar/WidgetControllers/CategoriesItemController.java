@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import localendar.Category;
 import localendar.Database;
+import localendar.Task;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -102,6 +103,11 @@ public class CategoriesItemController {
                 Database db = new Database();
                 db.deleteCategory(category);
                 db.closeConnection();
+                for(Task task: main.getTasks()){
+                    if(task.getCategory().equals(category)){
+                        task.setCategory(categoryHashMap.get(1));
+                    }
+                }
                 callerController.refreshCategories();
             }
         });
@@ -110,9 +116,14 @@ public class CategoriesItemController {
                 categoryHashMap.remove(entry.getKey());
             }
         }
-        // TODO loop through every task in the data structure, if the category of that task matches this.category
-        // TODO change it to categoryHashMap.get(1)
-        // TODO then pass to main.refreshTaskList(main.YOUR DATA STRUCUTERE GETTER FUNCTION)
+        for(Task task:main.getTasks()){
+            if(task.getCategory() == category){
+                task.setCategory(categoryHashMap.get(1));
+            }
+        }
+
+        main.refreshTaskList(main.getTasks());
+
     }
 
 }

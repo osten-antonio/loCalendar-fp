@@ -2,6 +2,7 @@ package localendar;
 
 import java.time.LocalDate;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Optional;
 
 public class RecurrenceRule implements Iterable<LocalDate> {
@@ -36,19 +37,14 @@ public class RecurrenceRule implements Iterable<LocalDate> {
     @Override
     public Iterator<LocalDate> iterator() {
         return new Iterator<LocalDate>() {
-            private LocalDate currentDate = startDate; // the state of the iterator
+            private LocalDate currentDate = startDate;
 
             @Override
             public boolean hasNext() {
-                if (freq == Frequency.NONE) {
-                    return false;
-                }
-                if (dateEnd.isEmpty()) {
-                    return true;
-                }
-                return currentDate.isBefore(dateEnd.orElse(LocalDate.MAX)) ||
-                        currentDate.isEqual(dateEnd.orElse(LocalDate.MAX));
+                if (freq == Frequency.NONE) return false;
+                return dateEnd.map(end -> !currentDate.isAfter(end)).orElse(true);
             }
+
 
             @Override
             public LocalDate next() {
@@ -74,5 +70,17 @@ public class RecurrenceRule implements Iterable<LocalDate> {
                 return nextDate;
             }
         };
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        RecurrenceRule that = (RecurrenceRule) o;
+        return interval == that.interval && freq == that.freq && Objects.equals(dateEnd, that.dateEnd) && Objects.equals(startDate, that.startDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(freq, dateEnd, interval, startDate);
     }
 }

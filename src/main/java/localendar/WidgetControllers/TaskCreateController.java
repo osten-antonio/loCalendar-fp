@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -15,10 +14,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class TaskCreateController implements Initializable {
     @FXML
@@ -129,7 +125,7 @@ public class TaskCreateController implements Initializable {
     }
 
     public void setEndDate(LocalDate dateEnd){
-        endDate=Optional.of(dateEnd);
+        Optional.ofNullable(dateEnd);
     }
 
     public void setInterval(int interval){
@@ -141,7 +137,7 @@ public class TaskCreateController implements Initializable {
     @FXML
     private void createTask(){
         boolean valid = !taskTitle.getText().isBlank() && dueDate.getValue()!=null &&
-                !prioritySelector.getValue().isBlank();
+                prioritySelector.getValue() != null;
         if(valid){
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String selected = prioritySelector.getValue().toUpperCase();
@@ -149,7 +145,7 @@ public class TaskCreateController implements Initializable {
             int level = selectedPriority.getLevel();
             String sqlFreq = freq == null ? "" : freq.toString();
             String sqlInterval = interval == null ? "" : interval.toString();
-            String sqlEndDate = endDate == null ? "" : endDate.get().format(formatter);
+            String sqlEndDate = endDate.map(localDate -> localDate.format(formatter)).orElse("");
             Task resTask = new Task(taskTitle.getText(),taskBody.getText(),false,dueDate.getValue(),
                     LocalTime.of(dueHour.getValue(),dueMinute.getValue()), level,
                     String.format("FREQ=%s;INTERVAL=%s;UNTIL=%s",sqlFreq,sqlInterval,sqlEndDate),
@@ -159,8 +155,9 @@ public class TaskCreateController implements Initializable {
             db.writeTask(resTask);
             db.closeConnection();
 
-            // TODO from main.your data strucutre getter, add your data strucutre
-            // TODO main.generateTaskItem(resTask)
+            main.getTasks().add(resTask);
+            main.generateTaskItem(resTask);
+
             main.refreshCache();
             Stage stage = (Stage) taskTitle.getScene().getWindow();
             stage.close();
@@ -175,6 +172,7 @@ public class TaskCreateController implements Initializable {
     }
 
     public void setEdit(Task task){
+        Task prevTask = task.copy();
         createButton.setText("Edit");
 
         freq=task.getRrule().getFrequency();
@@ -200,18 +198,32 @@ public class TaskCreateController implements Initializable {
                 int level = selectedPriority.getLevel();
                 String sqlFreq = freq == null ? "" : freq.toString();
                 String sqlInterval = interval == null ? "" : interval.toString();
-                String sqlEndDate = endDate == null ? "" : endDate.get().format(formatter);
+                String sqlEndDate = endDate.map(
+                        localDate -> localDate.format(formatter)).orElse("");
                 Database db = new Database();
                 Task resTask = new Task(taskTitle.getText(), taskBody.getText(), false, dueDate.getValue(),
                         LocalTime.of(dueHour.getValue(), dueMinute.getValue()), level,
                         String.format("FREQ=%s;INTERVAL=%s;UNTIL=%s", sqlFreq, sqlInterval, sqlEndDate),
                         categories.get(Collections.max(categories.keySet()))
                 );
-                // TODO Data strucutre here
-                //  main. ur data strucutre getter, loop through find a match with prevTask, replace that with resTask
+                PriorityQueue<Task> mainTaskQueue = main.getTasks();
+
+                for(Task mainTask:main.getTasks()){
+                    if (mainTask.equals(prevTask)){
+                        mainTaskQueue.remove(mainTask);
+                        mainTaskQueue.add(resTask);
+                        break;
+                    }
+                }
+
 
                 main.refreshCache();
                 db.updateTask(task, resTask);
+                db.closeConnection();
+                main.refreshTaskList(mainTaskQueue);
+
+                Stage stage = (Stage) taskTitle.getScene().getWindow();
+                stage.close();
             }
             else{
                 Alert alert = new Alert(Alert.AlertType.WARNING);
