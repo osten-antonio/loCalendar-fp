@@ -85,7 +85,7 @@ public class MainController implements Initializable {
 
 
     // TODO Declare your data structure
-    private final LinkedList<Task> tasks = new LinkedList<>();
+    private LinkedList<Task> tasks;
     // TODO Change list to an instance of your data strucutre
     private Map<String,Map<LocalDate,LinkedList<Node>>> cache;
     private int cacheLimit;
@@ -139,7 +139,7 @@ public class MainController implements Initializable {
         dateTo.setEditable(false);
 
         // TODO Initialize your data strucutre
-        LinkedList<Task> tasks = new LinkedList<>();
+        tasks = new LinkedList<>();
 
         fromHour.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 0, // Min
