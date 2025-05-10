@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import localendar.Category;
 import localendar.Database;
+import localendar.Frequency;
 import localendar.Task;
 
 import java.io.IOException;
@@ -84,9 +85,9 @@ public class MainController implements Initializable {
 
 
     // TODO Declare your data structure
-
+    private final LinkedList<Task> tasks = new LinkedList<>();
     // TODO Change list to an instance of your data strucutre
-    private Map<String,Map<Integer,List<Node>>> cache;
+    private Map<String,Map<LocalDate,LinkedList<Node>>> cache;
     private int cacheLimit;
 
     @Override
@@ -138,6 +139,7 @@ public class MainController implements Initializable {
         dateTo.setEditable(false);
 
         // TODO Initialize your data strucutre
+        LinkedList<Task> tasks = new LinkedList<>();
 
         fromHour.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 0, // Min
@@ -274,8 +276,8 @@ public class MainController implements Initializable {
         int totalDaysInCalendar = daysInPrevMonth + daysInCurrentMonth;
         int daysInNextMonth = (totalDaysInCalendar <= 35) ? (35 - totalDaysInCalendar) : 0;
         if (cache.containsKey(curDate.toString())) {
-            /* TODO replace list with your data strucutre
-            Map<LocalDate, List<Node>> dayToNodes = cache.get(curDate.toString());
+            // TODO replace list with your data strucutre
+            Map<LocalDate, LinkedList<Node>> dayToNodes = cache.get(curDate);
             if (dayToNodes != null) {
                 // Load task nodes from cache and place them in the calendar grid
                 for (int day = 1; day <= 35; day++) {
@@ -284,14 +286,14 @@ public class MainController implements Initializable {
                             : (daysInPrevMonth - day + daysInPrevMonth + currentMonth.lengthOfMonth());
 
                     // TODO replace with your data structure
-                    List<Node> dayTasks = dayToNodes.get(actualDay);
+                    LinkedList<Node> dayTasks = dayToNodes.get(actualDay);
                     int targetBoxIndex = day - 1;
 
                     if (dayTasks != null) {
                         if (dayTasks.size() > 2) { // TODO dayTasks.size() depends on data strucutre
                             for (int i = 0; i < 2; i++) {
                                 // TODO get node from your data structure and put in motnh
-                                monthDayLabels.get(targetBoxIndex).getChildren().add(dayTasks.get(i));
+                                monthDayBox.get(targetBoxIndex).getChildren().add(dayTasks.get(i));
                             }
 
                             Label viewMoreLabel = new Label("View More");
@@ -328,7 +330,7 @@ public class MainController implements Initializable {
                                 root.setDisable(false);
 
                                 result.ifPresent(taskKey -> {
-                                    Task selectedTask = nameToTask.get(taskKey);
+                                    Task selectedTask = taskDisplayMap.get(taskKey);
                                     try {
                                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/OpenTask.fxml"));
                                         Parent openTask = loader.load();
@@ -337,22 +339,22 @@ public class MainController implements Initializable {
                                         controller.setTask(selectedTask);
 
                                         Stage taskWindow = new Stage();
-                                        taskWindow.setTitle(task.getTitle());
+                                        taskWindow.setTitle(selectedTask.getTitle());
                                         taskWindow.setScene(new Scene(openTask, 692, 411));
                                         taskWindow.setResizable(false);
 
-                                        callerRoot.setDisable(true);
-                                        taskWindow.setOnHidden(event -> callerRoot.setDisable(false));
+                                        root.setDisable(true);
+                                        taskWindow.setOnHidden(event -> root.setDisable(false));
                                         taskWindow.show();
                                     } catch (Exception er) {
                                         er.printStackTrace();
                                     }
                             });
-                            monthDayLabels.get(targetBoxIndex).getChildren().add(viewMoreLabel);
-                        } else {
+                            monthDayBox.get(targetBoxIndex).getChildren().add(viewMoreLabel);}
+                            );} else {
                             // TODO for each node in your data strucutre, add it to teh month
                             for (Node taskNode : dayTasks) {
-                                monthDayLabels.get(targetBoxIndex).getChildren().add(taskNode);
+                                monthDayBox.get(targetBoxIndex).getChildren().add(taskNode);
                             }
                         }
                     }
@@ -360,71 +362,63 @@ public class MainController implements Initializable {
                 return; // skip building from scratch
             }
 
-             */
-
         } else {
             LocalDate startWindow = currentMonth.atDay(1).minusDays(daysInPrevMonth);
             LocalDate endWindow = currentMonth.atEndOfMonth().plusDays(daysInNextMonth);
 
-        /*
-        For reference: private Map<String,Map<Integer,YOURDATA_STRUCTURE<Task>>> cache;
-        TODO
-         create a hashmap of <LocalDate,YOUR_DATASTRUCTURE<Node>>,
-         and add each task of every day (so every unique instance of task's date)
-         to your data structure, MAKE SURE YOU ADD IT BASED ON THE CORRECT ORDER OF DUE TIME
-         after adding all of the task within the day, hashmap.put<DAY,YOUR_DATASTRUCTURE>
-         --
-         FROM YOUR DATA STRUCTURE, filter through every task, getting only the task that is within curDate (one month)
-         ALSO get the tasks trailing tasks and leading tasks by filtering for within
-         currentMonth.atDay(1).minusDay(daysInPrevMonth)
-         currentMonth.atEndOfMonth().plusDays(daysInNextMonth)
-          include recurrence rule:
-             for (Task task : tasks) {
-                if (task.getRrule().getFrequency() != Frequency.NONE) {
-                    Iterator<Task> iterator = task.iterator(endWindow);
-                    while (iterator.hasNext()) {
-                        Task instance = iterator.next();
-                        LocalDate instDate = instance.getDueDate();
-                        if (!instDate.isBefore(startWindow) && !instDate.isAfter(endWindow)) {
-                        try {
-                            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/CalendarTaskItem.fxml"));
-                            Node item = fxmlLoader.load();
-                            CalendarTaskItemController controller = fxmlLoader.getController();
-                            controller.setCaller(root);
-                            controller.setTask(instance);
-                            and add item to your hashmap, if there is a key, if there isnt, add a new instance of your data struc
-                            (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>).putIfAbsent(day, YOUR_dATASTRUCTURE);
-                            (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>).get(day).add(node);
-                            Key to hashmap is instDate
-                            int dayOfMonth = task.getDueDate().getDayOfMonth();  // That task
-                            hashmap of <Integer,YOUR_DATASTRUCTURE<Node>>.putIfAbsent(dayOfMonth, YOUR_dATASTRUCTURE);
-                            hashmap of <Integer,YOUR_DATASTRUCTURE<Node>>.get(dayOfMonth).add(taskNode);
-                        } catch (IOException e) {
-                            e.printStackTrace();
+        //For reference: private Map<String,Map<Integer,YOURDATA_STRUCTURE<Task>>> cache;
+        
+        // TODO create a hashmap of <LocalDate,YOUR_DATASTRUCTURE<Node>>, and add each task of every day (so every unique instance of task's date)
+        //to your data structure, MAKE SURE YOU ADD IT BASED ON THE CORRECT ORDER OF DUE TIME
+         //after adding all of the task within the day, hashmap.put<DAY,YOUR_DATASTRUCTURE>
+         //FROM YOUR DATA STRUCTURE, filter through every task, getting only the task that is within curDate (one month)
+         //ALSO get the tasks trailing tasks and leading tasks by filtering for within
+         //currentMonth.atDay(1).minusDay(daysInPrevMonth);
+         //currentMonth.atEndOfMonth().plusDays(daysInNextMonth);
+          //include recurrence rule:
+            Map<LocalDate, LinkedList<Node>> dayToNodes = new HashMap<>();
+                for (Task task : tasks) {
+                    if (task.getRrule().getFrequency() != Frequency.NONE) {
+                        Iterator<Task> iterator = task.iterator(endWindow);
+                        while (iterator.hasNext()) {
+                            Task instance = iterator.next();
+                            LocalDate instDate = instance.getDueDate();
+                            if (!instDate.isBefore(startWindow) && !instDate.isAfter(endWindow)) {
+                                try {
+                                    FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/CalendarTaskItem.fxml"));
+                                    Node item = fxmlLoader.load();
+                                    CalendarTaskItemController controller = fxmlLoader.getController();
+                                    controller.setRoot(root);
+                                    controller.setTask(instance);
+                                    
+                                    dayToNodes.putIfAbsent(instDate, new LinkedList<>());
+                                    dayToNodes.get(instDate).add(item);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
-                        }
-                    }
-                } else {
-                    // Handle one-time tasks
-                    LocalDate taskDate = task.getDueDate();
-                    if (!taskDate.isBefore(startWindow) && !taskDate.isAfter(endWindow)) {
-                        try {
-                            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/CalendarTaskItem.fxml"));
-                            Node item = fxmlLoader.load();
-                            CalendarTaskItemController controller = fxmlLoader.getController();
-                            controller.setCaller(root);
-                            controller.setTask(instance);
-                            and add item to your hashmap, if there is a key, if there isnt, add a new instance of your data struc
-                            (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>).putIfAbsent(day, YOUR_DATASTRUCUTRE);
-                            (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>).get(day).add(node);
-                            taskDate is the key
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    } else {
+                        // Handle one-time tasks
+                        LocalDate taskDate = task.getDueDate();
+                        if (!taskDate.isBefore(startWindow) && !taskDate.isAfter(endWindow)) {
+                            try {
+                                FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/CalendarTaskItem.fxml"));
+                                Node item = fxmlLoader.load();
+                                CalendarTaskItemController controller = fxmlLoader.getController();
+                                controller.setRoot(root);
+                                controller.setTask(task);
+                                
+                                dayToNodes.putIfAbsent(taskDate, new LinkedList<>());
+                                dayToNodes.get(taskDate).add(item);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
             }
-        */
+        
 
         /* Draw UI
         for (int day = 0; day < 35; day++) {
@@ -508,8 +502,6 @@ public class MainController implements Initializable {
         // Cache the tasks for the current month
         cache.put(curDate.toString(), (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>)); TODO the hashmap is the one earlier
          */
-        }
-    }
 
     public void generateTaskItem(Task task){
         try {
