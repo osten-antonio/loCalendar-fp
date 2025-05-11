@@ -158,9 +158,9 @@ public class TaskCreateController implements Initializable {
             Database db = new Database();
             db.writeTask(resTask);
             db.closeConnection();
+            main.getTasks().insert(resTask);
+            main.generateTaskItem(resTask);
 
-            // TODO from main.your data strucutre getter, add your data strucutre
-            // TODO main.generateTaskItem(resTask)
             main.refreshCache();
             Stage stage = (Stage) taskTitle.getScene().getWindow();
             stage.close();
@@ -175,6 +175,7 @@ public class TaskCreateController implements Initializable {
     }
 
     public void setEdit(Task task){
+        Task prevTask = task.copy();
         createButton.setText("Edit");
 
         freq=task.getRrule().getFrequency();
@@ -200,18 +201,22 @@ public class TaskCreateController implements Initializable {
                 int level = selectedPriority.getLevel();
                 String sqlFreq = freq == null ? "" : freq.toString();
                 String sqlInterval = interval == null ? "" : interval.toString();
-                String sqlEndDate = endDate == null ? "" : endDate.get().format(formatter);
+                String sqlEndDate = endDate.map(localDate -> localDate.format(formatter)).orElse("");
                 Database db = new Database();
                 Task resTask = new Task(taskTitle.getText(), taskBody.getText(), false, dueDate.getValue(),
                         LocalTime.of(dueHour.getValue(), dueMinute.getValue()), level,
                         String.format("FREQ=%s;INTERVAL=%s;UNTIL=%s", sqlFreq, sqlInterval, sqlEndDate),
                         categories.get(Collections.max(categories.keySet()))
                 );
-                // TODO Data strucutre here
-                //  main. ur data strucutre getter, loop through find a match with prevTask, replace that with resTask
+                main.getTasks().delete(prevTask);
+                main.getTasks().insert(resTask);
 
                 main.refreshCache();
-                db.updateTask(task, resTask);
+                main.refreshTaskList(main.getTasks());
+                db.updateTask(prevTask, resTask);
+                Stage stage = (Stage) taskTitle.getScene().getWindow();
+                stage.close();
+
             }
             else{
                 Alert alert = new Alert(Alert.AlertType.WARNING);

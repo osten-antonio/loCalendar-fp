@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import localendar.BinaryTree;
 import localendar.Category;
 import localendar.Database;
 
@@ -110,9 +111,12 @@ public class CategoriesItemController {
                 categoryHashMap.remove(entry.getKey());
             }
         }
-        // TODO loop through every task in the data structure, if the category of that task matches this.category
-        // TODO change it to categoryHashMap.get(1)
-        // TODO then pass to main.refreshTaskList(main.YOUR DATA STRUCUTERE GETTER FUNCTION)
+        BinaryTree mainTasks = main.getTasks();
+        mainTasks.inOrder(task->{
+            if(task.getCategory().equals(this.category)){
+                task.setCategory(categoryHashMap.get(1));
+            }
+        });
     }
 
 }

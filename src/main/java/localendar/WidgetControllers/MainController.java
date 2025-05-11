@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import localendar.BinaryTree;
 import localendar.Category;
 import localendar.Database;
 import localendar.Task;
@@ -82,11 +83,9 @@ public class MainController implements Initializable {
     private StackPane selectedBox;
     private String selectedRruleFilter;
 
+    private BinaryTree tasks;
 
-    // TODO Declare your data structure
-
-    // TODO Change list to an instance of your data strucutre
-    private Map<String,Map<Integer,List<Node>>> cache;
+    private Map<String,Map<Integer,List<Node>>> cache; // TODO
     private int cacheLimit;
 
     @Override
@@ -137,7 +136,7 @@ public class MainController implements Initializable {
         dateFrom.setEditable(false);
         dateTo.setEditable(false);
 
-        // TODO Initialize your data strucutre
+        tasks = new BinaryTree();
 
         fromHour.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 0, // Min
@@ -202,17 +201,25 @@ public class MainController implements Initializable {
         try{
             ResultSet taskQueryResult = db.getTasks();
             while(taskQueryResult.next()){
-                /*
-                Do ur data structure thing here, only loading the tasks to ur data structure
-                 */
+
+                tasks.insert(new Task(
+                        taskQueryResult.getString("title"),
+                        taskQueryResult.getString("body"),
+                        taskQueryResult.getBoolean("status"),
+                        LocalDate.parse(taskQueryResult.getString("due_date")),
+                        LocalTime.parse(taskQueryResult.getString("time")),
+                        taskQueryResult.getInt("priority"),
+                        taskQueryResult.getString("rrule"),
+                        categories.get(taskQueryResult.getInt("category_id"))
+                ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        tasks.inOrder(task->{
+            generateTaskItem(task);
+        });
 
-        /*
-        Then run generateTaskItem(Task task) for each of your task item in your data structure
-         */
         fromHour.valueProperty().addListener((obs, oldVal, newVal) -> filter());
         fromMinute.valueProperty().addListener((obs, oldVal, newVal) -> filter());
         toHour.valueProperty().addListener((obs, oldVal, newVal) -> filter());
@@ -225,7 +232,7 @@ public class MainController implements Initializable {
     public HashMap<Integer, Category> getCategories(){
         return categories;
     }
-
+    public BinaryTree getTasks() { return tasks;}
     private void populateCalendar(){
         YearMonth currentMonth = YearMonth.from(curDate); //  Gets the year and month
         LocalDate firstOfMonth = currentMonth.atDay(1); // Gets the first day of month
@@ -528,7 +535,7 @@ public class MainController implements Initializable {
     public void refreshCache(){
         cache = new LinkedHashMap<>();
     }
-    // TODO create a getter for your data structure
+
 
     private Text createItem(String text, boolean options) {
         Text label = new Text(text);
@@ -541,9 +548,11 @@ public class MainController implements Initializable {
         return label;
     }
 
-    private void refreshTaskList(){ // TODO add your data strucutre as the argument here
+    public void refreshTaskList(BinaryTree task){
         taskArea.getChildren().clear();
-        // Repopulate task list, from your data structures
+        task.inOrder(task1 -> {
+            generateTaskItem(task1);
+        });
     }
 
     @FXML
@@ -621,12 +630,13 @@ public class MainController implements Initializable {
     @FXML
     private void search(){
         System.out.println(searchBar.getText());
-        /*
-         TODO filter if any task matches or contains searchBar.getText()
-              for every task taht matches, add that task to a new instance of your data structure
-              then pass to refreshTaskList()
-         */
-
+        BinaryTree temp = new BinaryTree();
+        tasks.inOrder(task -> {
+            if(task.getTitle().contains(searchBar.getText())){
+                temp.insert(task);
+            }
+        });
+        refreshTaskList(temp);
     }
 
     @FXML

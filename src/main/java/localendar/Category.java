@@ -1,5 +1,7 @@
 package localendar;
 
+import java.util.Objects;
+
 public class Category {
     private String name;
     private String color;
@@ -12,7 +14,20 @@ public class Category {
     public void setName(String name){
         this.name = name;
     }
-    public void setColor( String color){
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(name, category.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, color, textColor);
+    }
+
+    public void setColor(String color){
         this.color=color;
     }
     public void setTextColor(String textColor){

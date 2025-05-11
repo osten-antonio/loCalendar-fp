@@ -1,5 +1,4 @@
 package localendar.WidgetControllers;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
@@ -8,7 +7,6 @@ import localendar.Category;
 import localendar.Database;
 
 import java.util.HashMap;
-
 public class CategoryCreationController {
     @FXML
     private TextField categoryName;
