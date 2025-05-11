@@ -37,6 +37,9 @@ public class CalendarTaskItemController {
     public void setRoot(AnchorPane root){
         this.callerRoot=root;
     }
+    public Task getTask(){
+        return task;
+    }
 
     @FXML
     private void openTask(){

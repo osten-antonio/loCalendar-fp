@@ -72,7 +72,6 @@ public class Database {
         }
     }
 
-
     public HashMap<Integer, Category> getCategories(){
         return getCategories(false);
     }
@@ -82,15 +81,15 @@ public class Database {
         if(!forWindow) query = "SELECT * FROM categories";
         else query = "SELECT * FROM categories WHERE category_id>1";
         try(
-            Statement stmt = conn.createStatement();
-            ResultSet sqlRes = stmt.executeQuery(query)
-            ){
+                Statement stmt = conn.createStatement();
+                ResultSet sqlRes = stmt.executeQuery(query)
+        ){
             while(sqlRes.next()){
                 res.put(sqlRes.getInt("category_id"),
                         new Category(sqlRes.getString("name"),
                                 sqlRes.getString("color"),
                                 sqlRes.getString("text_color"))
-                        );
+                );
             }
 
             return res;
@@ -135,7 +134,7 @@ public class Database {
             }
 
             stmt = conn.prepareStatement("UPDATE categories SET name=?, color=?, text_color=? WHERE " +
-                                                                "name=? AND color=? AND text_color=?");
+                    "name=? AND color=? AND text_color=?");
             stmt.setString(1,newCategory.getName());
             stmt.setString(2,newCategory.getColor());
             stmt.setString(3,newCategory.getTextColor());
@@ -207,6 +206,7 @@ public class Database {
     }
 
     public void deleteTask(Task task){
+        // TODO pop from data strucutre, refresh task list
         try{
             PreparedStatement stmt = conn.prepareStatement("SELECT category_id FROM categories WHERE name=?");
             stmt.setString(1,task.getCategory().getName());
@@ -238,6 +238,11 @@ public class Database {
             ResultSet rs = stmt.executeQuery();
             int categoryId = rs.next() ? rs.getInt("category_id") : 1;
 
+            PreparedStatement stmtCateg = conn.prepareStatement("SELECT category_id FROM categories WHERE name=?");
+            stmtCateg.setString(1, task.getCategory().getName());
+            rs = stmt.executeQuery();
+            int categoryIdQ = rs.next() ? rs.getInt("category_id") : 1;
+
             stmt = conn.prepareStatement("UPDATE tasks SET title = ?, body = ?, status = ?, due_date = ?, time = ?, rrule = ?, category_id = ?, priority = ? " +
                     "WHERE title = ? AND body = ? AND status = ? AND due_date = ? AND time = ? AND rrule = ? AND category_id = ? AND priority = ?");
 
@@ -249,19 +254,13 @@ public class Database {
             stmt.setString(6, task.getRrule().toString());
             stmt.setInt(7, categoryId);
             stmt.setInt(8, task.getPriority().getLevel());
-
-            stmt = conn.prepareStatement("SELECT category_id FROM categories WHERE name=?");
-            stmt.setString(1, task.getCategory().getName());
-            rs = stmt.executeQuery();
-            categoryId = rs.next() ? rs.getInt("category_id") : 1;
-
             stmt.setString(9, prevTask.getTitle());
             stmt.setString(10, prevTask.getBody());
             stmt.setInt(11, prevTask.isStatus() ? 1 : 0);
             stmt.setString(12, prevTask.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             stmt.setString(13, prevTask.getDueTime().format(DateTimeFormatter.ofPattern("HH:mm")));
             stmt.setString(14, prevTask.getRrule().toString());
-            stmt.setInt(15, categoryId);
+            stmt.setInt(15, categoryIdQ);
             stmt.setInt(16, prevTask.getPriority().getLevel());
 
             stmt.executeUpdate();

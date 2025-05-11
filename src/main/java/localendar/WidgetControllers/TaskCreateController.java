@@ -161,6 +161,12 @@ public class TaskCreateController implements Initializable {
 
             // TODO from main.your data strucutre getter, add your data strucutre
             // TODO main.generateTaskItem(resTask)
+            /* Priority queue example
+                main.getTasks().add(resTask);
+                main.generateTaskItem(resTask);
+             */
+
+
             main.refreshCache();
             Stage stage = (Stage) taskTitle.getScene().getWindow();
             stage.close();
@@ -175,6 +181,7 @@ public class TaskCreateController implements Initializable {
     }
 
     public void setEdit(Task task){
+        Task prevTask = task.copy();
         createButton.setText("Edit");
 
         freq=task.getRrule().getFrequency();
@@ -209,9 +216,23 @@ public class TaskCreateController implements Initializable {
                 );
                 // TODO Data strucutre here
                 //  main. ur data strucutre getter, loop through find a match with prevTask, replace that with resTask
+                /* PRIORITY QUEUE EXAMPLE
+                PriorityQueue<Task> mainTaskQueue = main.getTasks();
+
+                for(Task mainTask:main.getTasks()){
+                    if (mainTask.equals(prevTask)){
+                        mainTaskQueue.remove(mainTask);
+                        mainTaskQueue.add(resTask);
+                        break;
+                    }
+                }
+                 */
 
                 main.refreshCache();
-                db.updateTask(task, resTask);
+                db.updateTask(prevTask, resTask);
+
+                Stage stage = (Stage) taskTitle.getScene().getWindow();
+                stage.close();
             }
             else{
                 Alert alert = new Alert(Alert.AlertType.WARNING);

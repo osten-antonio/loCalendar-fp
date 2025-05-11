@@ -110,9 +110,21 @@ public class CategoriesItemController {
                 categoryHashMap.remove(entry.getKey());
             }
         }
-        // TODO loop through every task in the data structure, if the category of that task matches this.category
-        // TODO change it to categoryHashMap.get(1)
-        // TODO then pass to main.refreshTaskList(main.YOUR DATA STRUCUTERE GETTER FUNCTION)
+        // TODO loop through every task in your data strcutre from the getter function in main
+        //  If the task in your data structure .getCategory().equals(this.category)
+        //  then call task in your data structure.setCategory(categoryHashmap.get(1))
+        //  main.refreshTaskList(main.YOUR GETTER FUNCTION)
+        /*
+            Priority queue example
+            for(Task task:main.getTasks()){
+                if(task.getCategory() == category){
+                    task.setCategory(categoryHashMap.get(1));
+                }
+            }
+
+            main.refreshTaskList(main.getTasks());
+        */
+
     }
 
 }

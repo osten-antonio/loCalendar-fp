@@ -68,7 +68,6 @@ public class OpenTaskController implements Initializable {
             taskWindow.setScene(new Scene(taskRoot, 600, 400));
             taskWindow.setResizable(false);
 
-
             taskWindow.show();
         } catch (Exception e) {
             e.printStackTrace();

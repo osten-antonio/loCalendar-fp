@@ -2,7 +2,6 @@ package localendar.WidgetControllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,9 +12,7 @@ import localendar.Category;
 import localendar.Database;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.ResourceBundle;
 
 public class CategoriesController {
     @FXML
@@ -30,15 +27,6 @@ public class CategoriesController {
     private MainController main;
 
     Database db;
-//    @Override
-//    public void initialize(URL location, ResourceBundle resources) {
-//        db = new Database();
-//        categories=db.getCategories(true);
-//        categories.keySet().forEach(key ->
-//            generateCategoryItem(categories.get(key))
-//        );
-//
-//    }
 
     public void setMain(MainController main){
         this.main = main;

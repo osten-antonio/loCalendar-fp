@@ -128,8 +128,14 @@ public class TaskItemController {
                 db.deleteTask(task);
                 db.closeConnection();
                 // TODO loop through every task in the data structure, from your getter function at main
-                // TODO if it matches remove it
+                // TODO if the task matches remove it
                 // TODO then main.refreshTaskList(main.YOUR DATA STRUCUTERE GETTER FUNCTION)
+                /* Priority queue example
+                    PriorityQueue<Task> mainTasks = main.getTasks();
+                    mainTasks.removeIf(task -> task.equals(this.task));
+                    main.refreshTaskList(mainTasks);
+
+                 */
             }
         });
     }
