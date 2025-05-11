@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import localendar.Category;
 import localendar.Database;
+import localendar.Frequency;
 import localendar.Task;
 
 import java.io.IOException;
@@ -91,7 +92,7 @@ public class MainController implements Initializable {
 
     // TODO Change list to an instance of your data strucutre
     // Priority queue example: private Map<String,Map<LocalDate,PriorityQueue<Node>>> cache;
-    private Map<String,Map<Integer,List<Node>>> cache;
+    private Map<String,Map<LocalDate,List<Node>>> cache;
     private int cacheLimit;
 
     @Override
@@ -302,8 +303,7 @@ public class MainController implements Initializable {
         int totalDaysInCalendar = daysInPrevMonth + daysInCurrentMonth;
         int daysInNextMonth = (totalDaysInCalendar <= 35) ? (35 - totalDaysInCalendar) : 0;
         if (cache.containsKey(curDate.toString())) {
-            // Uncomment this
-            /* TODO replace list with your data strucutre: exapmple for priority queue:  Map<LocalDate, PriorityQueue<Node>> dayToNodes = cache.get(curDate.toString());
+            // TODO replace list with your data strucutre: exapmple for priority queue:  Map<LocalDate, PriorityQueue<Node>> dayToNodes = cache.get(curDate.toString());
             Map<LocalDate, List<Node>> dayToNodes = cache.get(curDate.toString());
             if (dayToNodes != null) {
                 // Load task nodes from cache and place them in the calendar grid
@@ -312,15 +312,15 @@ public class MainController implements Initializable {
                             ? (day - daysInPrevMonth)
                             : (daysInPrevMonth - day + daysInPrevMonth + currentMonth.lengthOfMonth());
 
-                    // TODO replace with your data structure
-                    List<Node> dayTasks = dayToNodes.get(actualDay);
+                    // TODO replace List with your data structure
+                    // YOUR DATA STRUCTURE<Node> dayTasks = dayToNodes.get(actualDay);
                     int targetBoxIndex = day - 1;
 
                     if (dayTasks != null) {
                         if (dayTasks.size() > 2) { // TODO dayTasks.size() depends on data strucutre
                             for (int i = 0; i < 2; i++) {
                                 // TODO get node from your data structure and put in motnh
-                                monthDayLabels.get(targetBoxIndex).getChildren().add(dayTasks.get(i));
+                                monthDayBox.get(targetBoxIndex).getChildren().add(dayTasks.get(i));
 
                                 // Example from priority queue:
                                 // Node temp = dayTasks.poll();
@@ -370,36 +370,32 @@ public class MainController implements Initializable {
                                         controller.setTask(selectedTask);
 
                                         Stage taskWindow = new Stage();
-                                        taskWindow.setTitle(task.getTitle());
+                                        taskWindow.setTitle(selectedTask.getTitle());
                                         taskWindow.setScene(new Scene(openTask, 692, 411));
                                         taskWindow.setResizable(false);
 
-                                        callerRoot.setDisable(true);
-                                        taskWindow.setOnHidden(event -> callerRoot.setDisable(false));
+                                        root.setDisable(true);
+                                        taskWindow.setOnHidden(event -> root.setDisable(false));
                                         taskWindow.show();
                                     } catch (Exception er) {
                                         er.printStackTrace();
                                     }
+                                });
                             });
                             monthDayBox.get(targetBoxIndex).getChildren().add(viewMoreLabel);
-                        } else {
+                            } else {
                             for (Node taskNode : dayTasks) {
                                 monthDayBox.get(targetBoxIndex).getChildren().add(taskNode);
                             }
                         }
                     }
+                    return; // skip building from scratch
                 }
-                return; // skip building from scratch
             }
-
-             */// Uncomment until here
-
         } else {
             LocalDate startWindow = currentMonth.atDay(1).minusDays(daysInPrevMonth);
             LocalDate endWindow = currentMonth.atEndOfMonth().plusDays(daysInNextMonth);
 
-        /*
-        TODO uncomment this
              // TODO Initialize a hashmap for your data structure with localDate as key, and YOURDATASTRUCTURE<Node> as the value
              // Priority queue example: Map<LocalDate, PriorityQueue<Node>> dayToNodes = new HashMap<>();
              for (Task task : tasks) {
@@ -417,13 +413,14 @@ public class MainController implements Initializable {
                             controller.setRoot(root);
                             controller.setTask(instance);
 
-                            //TODO add item to your data strucutre, if there is no key add a new instance
+                            //TODO for below: add item to your data strucutre, if there is no key add a new instance
                             // of your data structre then add the item in taht key
                             int dayOfMonth = task.getDueDate().getDayOfMonth();  // That task
-                            HASHMAP INITIALIZED EARLIER.putIfAbsent(dayOfMonth, new instance of YOUR_dATASTRUCTURE);
-                            HASHMAP INITIALIZED EARLIER.get(dayOfMonth).add(taskNode);
+                            /* TODO Uncomment this
+                             HASHMAP INITIALIZED EARLIER.putIfAbsent(dayOfMonth, new instance of YOUR_dATASTRUCTURE);
+                             HASHMAP INITIALIZED EARLIER.get(dayOfMonth).add(taskNode);
+                            */
                             // You might need to compare each node to sort it properly
-
 
                             // Priority queue example:
                             // dayToNodes.putIfAbsent(instDate, new PriorityQueue<>(Comparator.comparing(node -> {
@@ -448,13 +445,15 @@ public class MainController implements Initializable {
                             CalendarTaskItemController controller = fxmlLoader.getController();
                             item.setUserData(controller);
                             controller.setRoot(root);
-                            controller.setTask(instance);
+                            controller.setTask(task);
 
-                            //TODO add item to your data strucutre, if there is no key add a new instance
+                            //TODO for below: add item to your data strucutre, if there is no key add a new instance
                             // of your data structre then add the item in taht key
                             int dayOfMonth = task.getDueDate().getDayOfMonth();  // That task
-                            HASHMAP INITIALIZED EARLIER.putIfAbsent(dayOfMonth, new instance of YOUR_dATASTRUCTURE);
-                            HASHMAP INITIALIZED EARLIER.get(dayOfMonth).add(taskNode);
+                            /* TODO Uncomment this
+                                HASHMAP INITIALIZED EARLIER.putIfAbsent(dayOfMonth, new instance of YOUR_dATASTRUCTURE);
+                                HASHMAP INITIALIZED EARLIER.get(dayOfMonth).add(taskNode);
+                             */
                             // You might need to compare each node to sort it properly
 
 
@@ -471,21 +470,21 @@ public class MainController implements Initializable {
                     }
                 }
             }
-        */
 
-        /* Draw UI
         for (int day = 0; day < 35; day++) {
-            LocalDate actualDate = startWindow.plusDays(dayOffset);
+            LocalDate actualDate = startWindow.plusDays(day);
             // TODO replace list with your data strucutre
             // Priority queue example: PriorityQueue<Node> dayTasks = dayToNodes.get(actualDate);
-            List<Node> dayTasks = (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>).get(actualDate); // TODO it is the hashmap earlier
+           /* Uncomment this, change the (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>) to the hashmap earlier
+                YOURDATASTRUCTURE<Node> dayTasks = (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>).get(actualDate);
+            */
             int targetBoxIndex = day; // Adjust for the box index (0-based)
 
             if (dayTasks != null) {
                 if(dayTasks.size()>2){
                     for(int i = 0; i < 2;i++){
                        // TODO get node from your data structure and put in motnh
-                        monthDayLabels.get(targetBoxIndex).getChildren().add(dayTasks.get(i));
+                        monthDayBox.get(targetBoxIndex).getChildren().add(dayTasks.get(i));
                         // Priority queue example
                         // Node temp = dayTasks.poll();
                         // monthDayBox.get(targetBoxIndex).getChildren().add(temp);
@@ -506,7 +505,6 @@ public class MainController implements Initializable {
                                     taskDisplayMap.put(displayString, task);
                                 }
                             }
-                        }
 
                         if (taskDisplayMap.isEmpty()) return;
 
@@ -523,7 +521,7 @@ public class MainController implements Initializable {
                         root.setDisable(false);
 
                         result.ifPresent(taskKey -> {
-                            Task selectedTask = nameToTask.get(taskKey);
+                            Task selectedTask = taskDisplayMap.get(taskKey);
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/OpenTask.fxml"));
                                 Parent openTask = loader.load();
@@ -544,19 +542,20 @@ public class MainController implements Initializable {
                             }
                         });
                 });
-                monthDayLabels.get(targetBoxIndex).getChildren().add(viewMoreLabel);
+                monthDayBox.get(targetBoxIndex).getChildren().add(viewMoreLabel);
                 }else{
                     // TODO For each node in your data structure, change if needed
                     for (Node taskNode : dayTasks) {
                         monthDayBox.get(targetBoxIndex).getChildren().add(taskNode);
                     }
-
-
+                }
             }
         }
 
+
         // Cache the tasks for the current month
-        cache.put(curDate.toString(), (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>)); TODO the hashmap is the one earlier
+        /* TODO Uncomment this, the hashmap is the one earlier
+          cache.put(curDate.toString(), (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>));
          */
         }
     }
