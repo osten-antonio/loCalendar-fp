@@ -685,30 +685,55 @@ public class MainController implements Initializable {
         System.out.println(uncompletedFilter);
         System.out.println(rRuleFilter);
         System.out.println(categoryFilter);
-        /*
-            TODO create new instance of your data structure to store filtered task
-             filter using the variable above, and also every element of categoryFilter and rRulefilter
-             for rRuleFilter, keep on generating the next task item, until it reaches the end date or
-             until toDateFilter, if there is no endDate and enableDateRange is not selected, no need to generate
-             search through all of the created tasks to add to the filtered task data struct
-             then sort the filtered task data struct depending on the selected radio button using
-             Toggle selectedToggle = group.getSelectedToggle();
-                if (selectedToggle != null) {
-                    RadioButton selectedRadio = (RadioButton) selectedToggle;
-                    if(selected == dueDateRadio){
-                    }
-                    if(selected == dueTimeRadio){
-                    }
-                    if(selected == priorityRadio){
-                    }
+        LinkedList<Task> filteredTasks = new LinkedList<>();
+
+    for (Task task : tasks) {
+        boolean isRecurringMatch = rRuleFilter.contains(task.getRrule().toString());
+
+        if (isRecurringMatch && task.getRrule().getFrequency() != Frequency.NONE) {
+            LocalDate until = toDateFilter != null ? toDateFilter : LocalDate.now().plusMonths(1);
+            Iterator<Task> it = task.iterator(until);
+            while (it.hasNext()) {
+                Task instance = it.next();
+                if (matchesFilters(instance)) {
+                    filteredTasks.add(instance);
                 }
-             Sort using the respective integer value above, sortPriorityVal, sortDateVal, sortTimeVal
-             Then pass that to refreshTaskList(), rmb to add the parameter as ur data struct
-             Note: For the date and time filters, either the from or to value may be null.
-                    If only one is provided, tasks will be filtered to only those that start
-                    on/after the "from" value or end on/before the "to" value, respectively.
-         */
+            }
+        } else if (!isRecurringMatch && matchesFilters(task)) {
+            filteredTasks.add(task);
+        }
     }
+
+    Toggle selectedToggle = group.getSelectedToggle();
+    if (selectedToggle != null) {
+        RadioButton selectedRadio = (RadioButton) selectedToggle;
+
+        if (selectedRadio == dueDateRadio) {
+            if (sortDateVal == 1) {
+                filteredTasks.sort(Comparator.comparing(Task::getDueDate).reversed());
+            } else if (sortDateVal == 2) {
+                filteredTasks.sort(Comparator.comparing(Task::getDueDate));
+            }
+        }
+
+        if (selectedRadio == dueTimeRadio) {
+            if (sortTimeVal == 1) {
+                filteredTasks.sort(Comparator.comparing(Task::getDueTime).reversed());
+            } else if (sortTimeVal == 2) {
+                filteredTasks.sort(Comparator.comparing(Task::getDueTime));
+            }
+        }
+
+        if (selectedRadio == priorityRadio) {
+            if (sortPriorityVal == 1) {
+                filteredTasks.sort(Comparator.comparing(Task::getPriority).reversed());
+            } else if (sortPriorityVal == 2) {
+                filteredTasks.sort(Comparator.comparing(Task::getPriority));
+            }
+        }
+    }
+    refreshTaskList(filteredTasks);
+}
 
     @FXML
     private void selectCategory() {
