@@ -18,6 +18,7 @@ import localendar.Task;
 import javafx.scene.shape.Rectangle;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class TaskItemController {
@@ -136,6 +137,12 @@ public class TaskItemController {
                     main.refreshTaskList(mainTasks);
 
                  */
+                // Remove the task from the ArrayList (task data structure)
+                ArrayList<Task> taskList = main.getTasks();  // Get the list of tasks from main
+                taskList.removeIf(t -> t.equals(this.task));  // Remove the task matching the current task
+
+                // Refresh the task list in the UI
+                main.refreshTaskList(taskList);  // Pass the updated list to refresh the UI
             }
         });
     }

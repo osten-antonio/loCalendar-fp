@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import localendar.Category;
 import localendar.Database;
+import localendar.Task;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -124,7 +125,15 @@ public class CategoriesItemController {
 
             main.refreshTaskList(main.getTasks());
         */
-
+        // Loop through each task in your task structure to update tasks
+        for (Task task : main.getTasks()) {
+            if (task.getCategory().equals(category)) {
+                // Set the task category to a default or another valid category
+                task.setCategory(categoryHashMap.get(1));  // Example: assigning default category with ID 1
+            }
+        }
+        // Refresh the task list after modification
+        main.refreshTaskList(main.getTasks());
     }
 
 }

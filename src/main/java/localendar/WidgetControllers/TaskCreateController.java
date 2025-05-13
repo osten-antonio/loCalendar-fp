@@ -15,10 +15,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class TaskCreateController implements Initializable {
     @FXML
@@ -149,7 +146,7 @@ public class TaskCreateController implements Initializable {
             int level = selectedPriority.getLevel();
             String sqlFreq = freq == null ? "" : freq.toString();
             String sqlInterval = interval == null ? "" : interval.toString();
-            String sqlEndDate = endDate == null ? "" : endDate.get().format(formatter);
+            String sqlEndDate = endDate.map(localDate -> localDate.format(formatter)).orElse("");
             Task resTask = new Task(taskTitle.getText(),taskBody.getText(),false,dueDate.getValue(),
                     LocalTime.of(dueHour.getValue(),dueMinute.getValue()), level,
                     String.format("FREQ=%s;INTERVAL=%s;UNTIL=%s",sqlFreq,sqlInterval,sqlEndDate),
@@ -165,6 +162,9 @@ public class TaskCreateController implements Initializable {
                 main.getTasks().add(resTask);
                 main.generateTaskItem(resTask);
              */
+
+            main.getTasks().add(resTask);
+            main.generateTaskItem(resTask);
 
 
             main.refreshCache();
@@ -227,6 +227,14 @@ public class TaskCreateController implements Initializable {
                     }
                 }
                  */
+                // Find the previous task in the ArrayList and replace it with the new task
+                ArrayList<Task> taskList = main.getTasks();
+                for (int i = 0; i < taskList.size(); i++) {
+                    if (taskList.get(i).equals(prevTask)) {
+                        taskList.set(i, resTask);  // Replace the task in the list
+                        break;
+                    }
+                }
 
                 main.refreshCache();
                 db.updateTask(prevTask, resTask);
