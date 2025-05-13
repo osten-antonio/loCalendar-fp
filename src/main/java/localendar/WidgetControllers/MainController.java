@@ -420,11 +420,11 @@ public class MainController implements Initializable {
             }
         
 
-        /* Draw UI
+        //Draw UI
         for (int day = 0; day < 35; day++) {
             LocalDate actualDate = startWindow.plusDays(dayOffset);
             // TODO replace list with your data strucutre
-            List<Node> dayTasks = (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>).get(actualDate); // TODO it is the hashmap earlier
+            LinkedList<Node> dayTasks = (HASHMAP<LocalDate,LinkedList<Node>>)get(actualDate); // TODO it is the hashmap earlier
             int targetBoxIndex = day; // Adjust for the box index (0-based)
 
             if (dayTasks != null) {
@@ -500,7 +500,7 @@ public class MainController implements Initializable {
         }
 
         // Cache the tasks for the current month
-        cache.put(curDate.toString(), (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>)); TODO the hashmap is the one earlier
+        cache.put(curDate.toString(), (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>)); //TODO the hashmap is the one earlier
          */
 
     public void generateTaskItem(Task task){
