@@ -288,12 +288,11 @@ public class MainController implements Initializable {
         if (cache.containsKey(curDate.toString())) {
             Map<LocalDate, PriorityQueue<Node>> dayToNodes = cache.get(curDate.toString());
             if (dayToNodes != null) {
+                System.out.println("CACHE");
                 for (int day = 1; day <= 35; day++) {
-                    int actualDay = (day - daysInPrevMonth) > 0
-                            ? (day - daysInPrevMonth)
-                            : (daysInPrevMonth - day + daysInPrevMonth + currentMonth.lengthOfMonth());
+                    LocalDate actualDate = firstOfMonth.minusDays(daysInPrevMonth).plusDays(day - 1);
+                    PriorityQueue<Node> dayTasks = dayToNodes.get(actualDate);
 
-                    PriorityQueue<Node> dayTasks = dayToNodes.get(actualDay);
                     int targetBoxIndex = day - 1;
 
                     if (dayTasks != null) {
@@ -357,7 +356,6 @@ public class MainController implements Initializable {
                                     }
                                 });
                             });
-                            System.out.println("Adding View More label to day " + actualDay);
                             monthDayBox.get(targetBoxIndex).getChildren().add(viewMoreLabel);
 
                         } else {
@@ -497,7 +495,7 @@ public class MainController implements Initializable {
                     }
                 }
             }
-
+            cache.put(curDate.toString(), dayToNodes);
         }
     }
 
@@ -517,6 +515,7 @@ public class MainController implements Initializable {
     }
     public void refreshCache(){
         cache = new LinkedHashMap<>();
+        fillMonth();
     }
     public PriorityQueue<Task> getTasks(){
         return tasks;
