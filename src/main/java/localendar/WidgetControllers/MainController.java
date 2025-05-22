@@ -207,6 +207,18 @@ public class MainController implements Initializable {
                 /*
                 Do ur data structure thing here, only loading the tasks to ur data structure
                  */
+                tasks.add(
+                    new Task(
+                        taskQueryResult.getString("title"),
+                        taskQueryResult.getString("body"),
+                        taskQueryResult.getBoolean("status"),
+                        LocalDate.parse(taskQueryResult.getString("due_date")),
+                        LocalTime.parse(taskQueryResult.getString("time")),
+                        taskQueryResult.getInt("priority"),
+                        taskQueryResult.getString("rrule"),
+                        categories.get(taskQueryResult.getInt("category_id"))
+                    )
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -215,6 +227,10 @@ public class MainController implements Initializable {
         /*
         Then run generateTaskItem(Task task) for each of your task item in your data structure
          */
+        tasks.forEach(task -> {
+            generateTaskItem(task);
+        });
+
         fromHour.valueProperty().addListener((obs, oldVal, newVal) -> filter());
         fromMinute.valueProperty().addListener((obs, oldVal, newVal) -> filter());
         toHour.valueProperty().addListener((obs, oldVal, newVal) -> filter());
@@ -293,6 +309,7 @@ public class MainController implements Initializable {
                         if (dayTasks.size() > 2) { // TODO dayTasks.size() depends on data strucutre
                             for (int i = 0; i < 2; i++) {
                                 // TODO get node from your data structure and put in motnh
+                                Node node = dayTasks.get(i);
                                 monthDayBox.get(targetBoxIndex).getChildren().add(dayTasks.get(i));
                             }
 
@@ -329,7 +346,7 @@ public class MainController implements Initializable {
                                 Optional<String> result = dialog.showAndWait();
                                 root.setDisable(false);
 
-                                result.ifPresent(taskKey -> {
+                                result.ifPresent(taskKey->{
                                     Task selectedTask = taskDisplayMap.get(taskKey);
                                     try {
                                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/OpenTask.fxml"));
@@ -365,17 +382,6 @@ public class MainController implements Initializable {
         } else {
             LocalDate startWindow = currentMonth.atDay(1).minusDays(daysInPrevMonth);
             LocalDate endWindow = currentMonth.atEndOfMonth().plusDays(daysInNextMonth);
-
-        //For reference: private Map<String,Map<Integer,YOURDATA_STRUCTURE<Task>>> cache;
-        
-        // TODO create a hashmap of <LocalDate,YOUR_DATASTRUCTURE<Node>>, and add each task of every day (so every unique instance of task's date)
-        //to your data structure, MAKE SURE YOU ADD IT BASED ON THE CORRECT ORDER OF DUE TIME
-         //after adding all of the task within the day, hashmap.put<DAY,YOUR_DATASTRUCTURE>
-         //FROM YOUR DATA STRUCTURE, filter through every task, getting only the task that is within curDate (one month)
-         //ALSO get the tasks trailing tasks and leading tasks by filtering for within
-         //currentMonth.atDay(1).minusDay(daysInPrevMonth);
-         //currentMonth.atEndOfMonth().plusDays(daysInNextMonth);
-          //include recurrence rule:
             Map<LocalDate, LinkedList<Node>> dayToNodes = new HashMap<>();
                 for (Task task : tasks) {
                     if (task.getRrule().getFrequency() != Frequency.NONE) {
@@ -417,21 +423,21 @@ public class MainController implements Initializable {
                         }
                     }
                 }
-            }
+            
         
 
         //Draw UI
         for (int day = 0; day < 35; day++) {
-            LocalDate actualDate = startWindow.plusDays(dayOffset);
+            LocalDate actualDate = startWindow.plusDays(day);
             // TODO replace list with your data strucutre
-            LinkedList<Node> dayTasks = (HASHMAP<LocalDate,LinkedList<Node>>)get(actualDate); // TODO it is the hashmap earlier
+            LinkedList<Node> dayTasks = dayToNodes.get(actualDate); // TODO it is the hashmap earlier
             int targetBoxIndex = day; // Adjust for the box index (0-based)
 
             if (dayTasks != null) {
                 if(dayTasks.size()>2){
                     for(int i = 0; i < 2;i++){
                        // TODO get node from your data structure and put in motnh
-                        monthDayLabels.get(targetBoxIndex).getChildren().add(dayTasks.get(i));
+                        monthDayBox.get(targetBoxIndex).getChildren().add(dayTasks.get(i));
                     }
                     Label viewMoreLabel = new Label("View More");
                     viewMoreLabel.setAlignment(Pos.CENTER);
@@ -443,7 +449,7 @@ public class MainController implements Initializable {
                             CalendarTaskItemController controller = (CalendarTaskItemController) node.getUserData();
                             if (controller != null) {
                                 Task task = controller.getTask();
-                                String displayString = String.format("%s @ %s", task.getName(), task.getDueTime()); // Add more fields if needed
+                                String displayString = String.format("%s @ %s", task.getTitle(), task.getDueTime()); // Add more fields if needed
                                 // Ensure uniqueness by adding a counter if needed
                                 while (taskDisplayMap.containsKey(displayString)) {
                                     displayString += " ";
@@ -467,7 +473,7 @@ public class MainController implements Initializable {
                         root.setDisable(false);
 
                         result.ifPresent(taskKey -> {
-                            Task selectedTask = nameToTask.get(taskKey);
+                            Task selectedTask = taskDisplayMap.get(taskKey);
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/OpenTask.fxml"));
                                 Parent openTask = loader.load();
@@ -476,23 +482,23 @@ public class MainController implements Initializable {
                                 controller.setTask(selectedTask);
 
                                 Stage taskWindow = new Stage();
-                                taskWindow.setTitle(task.getTitle());
+                                taskWindow.setTitle(selectedTask.getTitle());
                                 taskWindow.setScene(new Scene(openTask, 692, 411));
                                 taskWindow.setResizable(false);
 
-                                callerRoot.setDisable(true);
-                                taskWindow.setOnHidden(event -> callerRoot.setDisable(false));
+                                root.setDisable(true);
+                                taskWindow.setOnHidden(event -> root.setDisable(false));
                                 taskWindow.show();
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                            } catch (Exception error) {
+                                error.printStackTrace();
                             }
                         });
                 });
-                monthDayLabels.get(targetBoxIndex).getChildren().add(viewMoreLabel);
+                monthDayBox.get(targetBoxIndex).getChildren().add(viewMoreLabel);
                 }else{
                     // TODO For each node in your data structure
                     for (Node taskNode : dayTasks) {
-                    monthDayLabels.get(targetBoxIndex).getChildren().add(taskNode);
+                    monthDayBox.get(targetBoxIndex).getChildren().add(taskNode);
                 }
 
 
@@ -500,9 +506,10 @@ public class MainController implements Initializable {
         }
 
         // Cache the tasks for the current month
-        cache.put(curDate.toString(), (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>)); //TODO the hashmap is the one earlier
-         */
-
+        cache.put(curDate.toString(), dayToNodes);
+        }
+    }
+    }
     public void generateTaskItem(Task task){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/TaskItems.fxml"));
@@ -533,9 +540,11 @@ public class MainController implements Initializable {
         return label;
     }
 
-    private void refreshTaskList(){ // TODO add your data strucutre as the argument here
+    public void refreshTaskList(LinkedList<Task> tasks){
         taskArea.getChildren().clear();
-        // Repopulate task list, from your data structures
+        for(Task task:tasks){
+            generateTaskItem(task);
+        }
     }
 
     @FXML
