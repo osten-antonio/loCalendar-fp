@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 public class MainController implements Initializable {
     private Database db = new Database();
     private HashMap<Integer, Category> categories = db.getCategories();
-
     // Add ChangeListener for search
     @FXML
     private VBox taskArea,
@@ -311,6 +310,7 @@ public class MainController implements Initializable {
                                 // TODO get node from your data structure and put in motnh
                                 Node node = dayTasks.get(i);
                                 monthDayBox.get(targetBoxIndex).getChildren().add(dayTasks.get(i));
+                                dayTasks.add(node);
                             }
 
                             Label viewMoreLabel = new Label("View More");
@@ -436,8 +436,10 @@ public class MainController implements Initializable {
             if (dayTasks != null) {
                 if(dayTasks.size()>2){
                     for(int i = 0; i < 2;i++){
+                        Node node = dayTasks.poll();
                        // TODO get node from your data structure and put in motnh
                         monthDayBox.get(targetBoxIndex).getChildren().add(dayTasks.get(i));
+                        dayTasks.add(node);
                     }
                     Label viewMoreLabel = new Label("View More");
                     viewMoreLabel.setAlignment(Pos.CENTER);
@@ -528,6 +530,9 @@ public class MainController implements Initializable {
         cache = new LinkedHashMap<>();
     }
     // TODO create a getter for your data structure
+    public LinkedList<Task> getTasks(){
+        return tasks;
+    }
 
     private Text createItem(String text, boolean options) {
         Text label = new Text(text);
@@ -622,6 +627,13 @@ public class MainController implements Initializable {
     @FXML
     private void search(){
         System.out.println(searchBar.getText());
+        LinkedList<Task> temp = new LinkedList<>(new TaskComparator());
+        for(Task task:tasks){
+            if(task.getTitle().contains(searchBar.getText())){
+                temp.add(task);
+            }
+        }
+        refreshTaskList(temp);
         /*
          TODO filter if any task matches or contains searchBar.getText()
               for every task taht matches, add that task to a new instance of your data structure
@@ -634,6 +646,7 @@ public class MainController implements Initializable {
     private void filter(){
         completedFilter = completed.isSelected();
         uncompletedFilter = uncompleted.isSelected();
+        LinkedList<Task> filteredList = new LinkedList<>(new TaskComparator());
         System.out.println("---");
         int sortPriorityVal;
         switch (sort_priority.getValue()) {
@@ -697,21 +710,57 @@ public class MainController implements Initializable {
         LinkedList<Task> filteredTasks = new LinkedList<>();
 
     for (Task task : tasks) {
-        boolean isRecurringMatch = rRuleFilter.contains(task.getRrule().toString());
+            boolean matches = true;
 
-        if (isRecurringMatch && task.getRrule().getFrequency() != Frequency.NONE) {
-            LocalDate until = toDateFilter != null ? toDateFilter : LocalDate.now().plusMonths(1);
-            Iterator<Task> it = task.iterator(until);
-            while (it.hasNext()) {
-                Task instance = it.next();
-                if (matchesFilters(instance)) {
-                    filteredTasks.add(instance);
+            if (completedFilter && !task.isStatus()) {
+                matches = false;
+            }
+            if (uncompletedFilter && task.isStatus()) {
+                matches = false;
+            }
+
+            if (enableDateRange.isSelected()) {
+                if (fromDateFilter == null && toDateFilter != null) {
+                    if (task.getDueDate().isAfter(toDateFilter)) {
+                        matches = false;
+                    }
+                } else if (fromDateFilter != null && toDateFilter != null) {
+                    if (task.getDueDate().isBefore(fromDateFilter) || task.getDueDate().isAfter(toDateFilter)) {
+                        matches = false;
+                    }
+                } else if (fromDateFilter != null) {
+                    if (task.getDueDate().isBefore(fromDateFilter)) {
+                        matches = false;
+                    }
                 }
             }
-        } else if (!isRecurringMatch && matchesFilters(task)) {
-            filteredTasks.add(task);
+
+            if (enableTimeRange.isSelected()) {
+                if (task.getDueTime().isBefore(fromTimeFilter) || task.getDueTime().isAfter(toTimeFilter)) {
+                    matches = false;
+                }
+            }
+            if (!categoryFilter.isEmpty() && !categoryFilter.contains(task.getCategory())) {
+                matches = false;
+            }
+
+            if (!rRuleFilter.isEmpty() && task.getRrule() != null) {
+                boolean matchesRRule = false;
+                for (String rule : rRuleFilter) {
+                    if (task.getRrule().toString().contains(rule)) {
+                        matchesRRule = true;
+                        break;
+                    }
+                }
+                if (!matchesRRule) {
+                    matches = false;
+                }
+            }
+
+            if (matches) {
+                filteredQueue.add(task);
+            }
         }
-    }
 
     Toggle selectedToggle = group.getSelectedToggle();
     if (selectedToggle != null) {

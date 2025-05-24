@@ -110,6 +110,12 @@ public class CategoriesItemController {
                 categoryHashMap.remove(entry.getKey());
             }
         }
+        for(Task task:main.getTasks()){
+            if(task.getCategory() == category){
+                task.setCategory(categoryHashMap.get(1));
+            }
+        }
+        main.refreshTaskList(main.getTasks());
         // TODO loop through every task in the data structure, if the category of that task matches this.category
         // TODO change it to categoryHashMap.get(1)
         // TODO then pass to main.refreshTaskList(main.YOUR DATA STRUCUTERE GETTER FUNCTION)

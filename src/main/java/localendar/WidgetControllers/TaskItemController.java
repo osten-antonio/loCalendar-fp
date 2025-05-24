@@ -19,6 +19,8 @@ import javafx.scene.shape.Rectangle;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.LinkedList;
 
 public class TaskItemController {
     @FXML
@@ -127,6 +129,9 @@ public class TaskItemController {
                 Database db = new Database();
                 db.deleteTask(task);
                 db.closeConnection();
+                LinkedList<Task> mainTasks = main.getTasks();
+                mainTasks.removeIf(task -> task.equals(this.task));
+                main.refreshTaskList(mainTasks);
                 // TODO loop through every task in the data structure, from your getter function at main
                 // TODO if it matches remove it
                 // TODO then main.refreshTaskList(main.YOUR DATA STRUCUTERE GETTER FUNCTION)

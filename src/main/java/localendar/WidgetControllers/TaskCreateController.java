@@ -18,7 +18,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.PriorityQueue;
 import java.util.ResourceBundle;
+import java.util.LinkedList;
 
 public class TaskCreateController implements Initializable {
     @FXML
@@ -158,7 +160,8 @@ public class TaskCreateController implements Initializable {
             Database db = new Database();
             db.writeTask(resTask);
             db.closeConnection();
-
+            main.getTasks().add(resTask);
+            main.generateTaskItem(resTask);
             // TODO from main.your data strucutre getter, add your data strucutre
             // TODO main.generateTaskItem(resTask)
             main.refreshCache();
@@ -207,6 +210,15 @@ public class TaskCreateController implements Initializable {
                         String.format("FREQ=%s;INTERVAL=%s;UNTIL=%s", sqlFreq, sqlInterval, sqlEndDate),
                         categories.get(Collections.max(categories.keySet()))
                 );
+                LinkedList<Task> mainTaskQueue = main.getTasks();
+
+                for(Task mainTask:main.getTasks()){
+                    if (mainTask.equals(prevTask)){
+                        mainTaskQueue.remove(mainTask);
+                        mainTaskQueue.add(resTask);
+                        break;
+                    }
+                }
                 // TODO Data strucutre here
                 //  main. ur data strucutre getter, loop through find a match with prevTask, replace that with resTask
 
