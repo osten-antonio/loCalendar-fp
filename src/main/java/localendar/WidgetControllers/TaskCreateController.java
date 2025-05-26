@@ -131,7 +131,7 @@ public class TaskCreateController implements Initializable {
     }
 
     public void setEndDate(LocalDate dateEnd){
-        endDate=Optional.of(dateEnd);
+        endDate=Optional.ofNullable(dateEnd);
     }
 
     public void setInterval(int interval){
@@ -151,7 +151,7 @@ public class TaskCreateController implements Initializable {
             int level = selectedPriority.getLevel();
             String sqlFreq = freq == null ? "" : freq.toString();
             String sqlInterval = interval == null ? "" : interval.toString();
-            String sqlEndDate = endDate == null ? "" : endDate.get().format(formatter);
+            String sqlEndDate = endDate.map(localDate -> localDate.format(formatter)).orElse("");
             Task resTask = new Task(taskTitle.getText(),taskBody.getText(),false,dueDate.getValue(),
                     LocalTime.of(dueHour.getValue(),dueMinute.getValue()), level,
                     String.format("FREQ=%s;INTERVAL=%s;UNTIL=%s",sqlFreq,sqlInterval,sqlEndDate),
@@ -178,6 +178,7 @@ public class TaskCreateController implements Initializable {
     }
 
     public void setEdit(Task task){
+        Task prevTask = task.copy();
         createButton.setText("Edit");
 
         freq=task.getRrule().getFrequency();
@@ -203,7 +204,7 @@ public class TaskCreateController implements Initializable {
                 int level = selectedPriority.getLevel();
                 String sqlFreq = freq == null ? "" : freq.toString();
                 String sqlInterval = interval == null ? "" : interval.toString();
-                String sqlEndDate = endDate == null ? "" : endDate.get().format(formatter);
+                String sqlEndDate = endDate.map(localDate -> localDate.format(formatter)).orElse("");
                 Database db = new Database();
                 Task resTask = new Task(taskTitle.getText(), taskBody.getText(), false, dueDate.getValue(),
                         LocalTime.of(dueHour.getValue(), dueMinute.getValue()), level,
@@ -272,3 +273,5 @@ public class TaskCreateController implements Initializable {
         }
     }
 }
+
+

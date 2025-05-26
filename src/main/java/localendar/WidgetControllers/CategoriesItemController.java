@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import localendar.Category;
 import localendar.Database;
+import localendar.Task;
 
 import java.util.HashMap;
 import java.util.Map;

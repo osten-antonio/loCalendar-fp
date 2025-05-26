@@ -627,7 +627,7 @@ public class MainController implements Initializable {
     @FXML
     private void search(){
         System.out.println(searchBar.getText());
-        LinkedList<Task> temp = new LinkedList<>(new TaskComparator());
+        LinkedList<Task> temp = new LinkedList<>();
         for(Task task:tasks){
             if(task.getTitle().contains(searchBar.getText())){
                 temp.add(task);
@@ -646,9 +646,9 @@ public class MainController implements Initializable {
     private void filter(){
         completedFilter = completed.isSelected();
         uncompletedFilter = uncompleted.isSelected();
-        LinkedList<Task> filteredList = new LinkedList<>(new TaskComparator());
+        LinkedList<Task> filteredList = new LinkedList<>();
         System.out.println("---");
-        int sortPriorityVal;
+        int sortPriorityVal= 0;
         switch (sort_priority.getValue()) {
             case "↕    Priority":
                 sortPriorityVal = 0;
@@ -664,7 +664,7 @@ public class MainController implements Initializable {
         }
 
 
-        int sortDateVal;
+        int sortDateVal= 0;
         switch (sort_due.getValue()){
             case ("\uD83D\uDCC6   Due date"):
                 sortDateVal = 0;
@@ -676,7 +676,7 @@ public class MainController implements Initializable {
                 sortDateVal = 2;
                 break;
         }
-        int sortTimeVal;
+        int sortTimeVal = 0;
         switch (sort_due.getValue()){
             case ("\uD83D\uDD53 Due time"):
                 sortTimeVal = 0;
@@ -758,7 +758,7 @@ public class MainController implements Initializable {
             }
 
             if (matches) {
-                filteredQueue.add(task);
+                filteredList.add(task);
             }
         }
 
