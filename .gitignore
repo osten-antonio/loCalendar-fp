@@ -44,3 +44,4 @@ build/
 *.db-journal
 
 entries.db
+.idea/material_theme_project_new.xml
