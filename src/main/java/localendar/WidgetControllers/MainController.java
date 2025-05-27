@@ -312,6 +312,11 @@ public class MainController implements Initializable {
     }
 
     private void fillMonth() {
+        for (VBox box : monthDayBox) {
+            if (box.getChildren().size() > 1) {
+                box.getChildren().remove(1, box.getChildren().size());
+            }
+        }
         YearMonth currentMonth = YearMonth.from(curDate);
         LocalDate firstOfMonth = currentMonth.atDay(1);
         int startDayOfWeek = firstOfMonth.getDayOfWeek().getValue();
@@ -1073,7 +1078,6 @@ public class MainController implements Initializable {
                     root.setDisable(false);  // Makes it enabled again when category is cllosed
                     if (controller.isChanged()) {
                         System.out.println(controller.getFilter());
-                        rRuleFilter.add(controller.getFilter());
                         addRruleBox(controller.getFilter());
                     }
                 });
@@ -1082,6 +1086,7 @@ public class MainController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            filter();
         }
 
         @FXML
