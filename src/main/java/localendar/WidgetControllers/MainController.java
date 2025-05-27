@@ -279,6 +279,11 @@ public class MainController implements Initializable {
     }
 
     private void fillMonth() {
+        for (VBox box : monthDayBox) {
+            if (box.getChildren().size() > 1) {
+                box.getChildren().remove(1, box.getChildren().size());
+            }
+        }
         YearMonth currentMonth = YearMonth.from(curDate);
         LocalDate firstOfMonth = currentMonth.atDay(1);
         int startDayOfWeek = firstOfMonth.getDayOfWeek().getValue();
@@ -292,16 +297,13 @@ public class MainController implements Initializable {
         int daysInNextMonth = (totalDaysInCalendar <= 35) ? (35 - totalDaysInCalendar) : 0;
         if (cache.containsKey(curDate.toString())) {
             // TODO replace list with your data strucutre
-            Map<LocalDate, LinkedList<Node>> dayToNodes = cache.get(curDate);
+            Map<LocalDate, LinkedList<Node>> dayToNodes = cache.get(curDate.toString());
             if (dayToNodes != null) {
                 // Load task nodes from cache and place them in the calendar grid
                 for (int day = 1; day <= 35; day++) {
-                    int actualDay = (day - daysInPrevMonth) > 0
-                            ? (day - daysInPrevMonth)
-                            : (daysInPrevMonth - day + daysInPrevMonth + currentMonth.lengthOfMonth());
-
+                    LocalDate actualDate = firstOfMonth.minusDays(daysInPrevMonth).plusDays(day - 1);
                     // TODO replace with your data structure
-                    LinkedList<Node> dayTasks = dayToNodes.get(actualDay);
+                    LinkedList<Node> dayTasks = dayToNodes.get(actualDate);
                     int targetBoxIndex = day - 1;
 
                     if (dayTasks != null) {
@@ -315,7 +317,7 @@ public class MainController implements Initializable {
 
                             Label viewMoreLabel = new Label("View More");
                             viewMoreLabel.setAlignment(Pos.CENTER);
-                            viewMoreLabel.setOnMouseClicked(e -> {
+                            viewMoreLabel.setOnMouseClicked(e -> { System.out.println("Pressed");
                                 Map<String, Task> taskDisplayMap = new LinkedHashMap<>();
 
                                 // TODO For each node in your data structure
@@ -394,6 +396,7 @@ public class MainController implements Initializable {
                                     FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/CalendarTaskItem.fxml"));
                                     Node item = fxmlLoader.load();
                                     CalendarTaskItemController controller = fxmlLoader.getController();
+                                    item.setUserData(controller);
                                     controller.setRoot(root);
                                     controller.setTask(instance);
                                     
@@ -412,6 +415,7 @@ public class MainController implements Initializable {
                                 FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/CalendarTaskItem.fxml"));
                                 Node item = fxmlLoader.load();
                                 CalendarTaskItemController controller = fxmlLoader.getController();
+                                item.setUserData(controller);
                                 controller.setRoot(root);
                                 controller.setTask(task);
                                 
@@ -443,7 +447,7 @@ public class MainController implements Initializable {
                     }
                     Label viewMoreLabel = new Label("View More");
                     viewMoreLabel.setAlignment(Pos.CENTER);
-                    viewMoreLabel.setOnMouseClicked(e -> {
+                    viewMoreLabel.setOnMouseClicked(e -> { System.out.println("Pressed");
                         Map<String, Task> taskDisplayMap = new LinkedHashMap<>();
 
                         // TODO For each node in your data structure
@@ -528,6 +532,7 @@ public class MainController implements Initializable {
     }
     public void refreshCache(){
         cache = new LinkedHashMap<>();
+        fillMonth();
     }
     // TODO create a getter for your data structure
     public LinkedList<Task> getTasks(){
