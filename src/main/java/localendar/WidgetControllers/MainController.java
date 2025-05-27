@@ -618,6 +618,7 @@ public class MainController implements Initializable {
         }
         public void refreshCache () {
             cache = new LinkedHashMap<>();
+            fillMonth();
         }
         // TODO create a getter for your data structure
         // public YOURDATASTRUCTURE getTasks(){ return tasks; }
