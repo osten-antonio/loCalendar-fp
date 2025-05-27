@@ -515,6 +515,7 @@ public class MainController implements Initializable {
     }
     public void refreshCache(){
         cache = new LinkedHashMap<>();
+        fillMonth();
     }
 
 
