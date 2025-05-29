@@ -699,7 +699,6 @@ public class MainController implements Initializable {
         System.out.println(uncompletedFilter);
         System.out.println(rRuleFilter);
         System.out.println(categoryFilter);
-        LinkedList<Task> filteredTasks = new LinkedList<>();
 
     for (Task task : tasks) {
             boolean matches = true;
@@ -775,7 +774,7 @@ public class MainController implements Initializable {
             filteredList.sort(comparator);
         }
     }
-    refreshTaskList(filteredTasks);
+    refreshTaskList(filteredList);
 }
 
     @FXML
