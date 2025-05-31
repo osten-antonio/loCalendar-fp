@@ -297,11 +297,23 @@ public class MainController implements Initializable {
 
                     if (dayTasks != null) {
                         if (dayTasks.size() > 2) {
-                            for (int i = 0; i < 2; i++) {
-                                Node temp = dayTasks.poll();
-                                monthDayBox.get(targetBoxIndex).getChildren().add(temp);
-                                dayTasks.add(temp);
+                            PriorityQueue<Node> cachedNodes = dayToNodes.get(actualDate);
+                            if (cachedNodes != null) {
+                                int count = 0;
+                                for (Node node : cachedNodes) {
+                                    if (count >= 2) break;
+
+                                    // remove node from previous parent if theres any
+                                    Parent parent = node.getParent();
+                                    if (parent instanceof AnchorPane) {
+                                        ((AnchorPane) parent).getChildren().remove(node);
+                                    }
+
+                                    monthDayBox.get(targetBoxIndex).getChildren().add(node);
+                                    count++;
+                                }
                             }
+
 
                             Label viewMoreLabel = new Label("View More");
                             viewMoreLabel.setAlignment(Pos.CENTER);
@@ -428,10 +440,23 @@ public class MainController implements Initializable {
 
                 if (dayTasks != null) {
                     if (dayTasks.size() > 2) {
-                        for (int i = 0; i < 2; i++) {
-                            Node temp = dayTasks.poll();
-                            monthDayBox.get(targetBoxIndex).getChildren().add(temp);
-                            dayTasks.add(temp);
+                        if (dayTasks.size() > 2) {
+                            PriorityQueue<Node> cachedNodes = dayToNodes.get(actualDate);
+                            if (cachedNodes != null) {
+                                int count = 0;
+                                for (Node node : cachedNodes) {
+                                    if (count >= 2) break;
+
+                                    // remove node from previous parent if theres any
+                                    Parent parent = node.getParent();
+                                    if (parent instanceof AnchorPane) {
+                                        ((AnchorPane) parent).getChildren().remove(node);
+                                    }
+
+                                    monthDayBox.get(targetBoxIndex).getChildren().add(node);
+                                    count++;
+                                }
+                            }
                         }
 
                         Label viewMoreLabel = new Label("View More");

@@ -42,4 +42,9 @@ build/
 *.db-shm
 *.db-journal
 
+tasks/entries-10.db
+tasks/entries-100.db
+tasks/entries-1000.db
+
 entries.db
+.idea/material_theme_project_new.xml
