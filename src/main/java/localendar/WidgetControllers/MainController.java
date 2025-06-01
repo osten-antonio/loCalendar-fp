@@ -12,10 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import localendar.Category;
-import localendar.Database;
-import localendar.Frequency;
-import localendar.Task;
+import localendar.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -209,7 +206,7 @@ public class MainController implements Initializable {
                 "↑   Earliest to Latest"));
 
         sort_time.setValue("\uD83D\uDD53 Due time");
-
+        long startTime = System.nanoTime(); // Get start time
         try{
             ResultSet taskQueryResult = db.getTasks();
             while(taskQueryResult.next()){
@@ -248,6 +245,9 @@ public class MainController implements Initializable {
         toMinute.valueProperty().addListener((obs, oldVal, newVal) -> filter());
 
         populateCalendar();
+        long endTime = System.nanoTime(); // Get end time
+        Benchmark.getInstance().getTime(startTime,endTime,1); // Calculate the time
+        Benchmark.getInstance().getSpace(1); // And space used
 
     }
 
@@ -680,6 +680,7 @@ public class MainController implements Initializable {
     @FXML
     private void search(){
         System.out.println(searchBar.getText());
+        long startTime = System.nanoTime();
         /*
          TODO filter if any task matches or contains searchBar.getText()
               for every task taht matches, add that task to a new instance of your data structure
@@ -693,11 +694,14 @@ public class MainController implements Initializable {
             }
             refreshTaskList(temp);
          */
-
+        long endTime = System.nanoTime();
+        Benchmark.getInstance().getTime(startTime,endTime,2);
+        Benchmark.getInstance().getSpace(2);
     }
 
     @FXML
     private void filter(){
+        long startTime = System.nanoTime();
         completedFilter = completed.isSelected();
         uncompletedFilter = uncompleted.isSelected();
         System.out.println("---");
@@ -783,6 +787,9 @@ public class MainController implements Initializable {
                     If only one is provided, tasks will be filtered to only those that start
                     on/after the "from" value or end on/before the "to" value, respectively.
          */
+        long endTime = System.nanoTime();
+        Benchmark.getInstance().getTime(startTime,endTime,6);
+        Benchmark.getInstance().getSpace(6);
     }
 
     @FXML

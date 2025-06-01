@@ -6,6 +6,7 @@ module localendar.localendar {
     requires com.dlsc.formsfx;
     requires java.desktop;
     requires java.compiler;
+    requires org.apache.poi.ooxml;
 
     opens localendar to javafx.fxml;
     exports localendar;
