@@ -657,66 +657,52 @@ public class MainController implements Initializable {
         uncompletedFilter = uncompleted.isSelected();
         LinkedList<Task> filteredList = new LinkedList<>();
         System.out.println("---");
-        int sortPriorityVal= 0;
+        int sortPriorityVal;
         switch (sort_priority.getValue()) {
-            case "↕    Priority":
-                sortPriorityVal = 0;
-                break;
-            case "↓    Highest to Lowest":
-                sortPriorityVal = 1;
-                break;
-            case "↑    Lowest to Highest":
-                sortPriorityVal = 2;
-                break;
-            default:
-                sortPriorityVal = 0; // fallback
+            case "↕    Priority": sortPriorityVal = 0; break;
+            case "↓    Highest to Lowest": sortPriorityVal = 1; break;
+            case "↑    Lowest to Highest": sortPriorityVal = 2; break;
+            default: sortPriorityVal = 0; break;
         }
 
+        int sortDateVal;
+        switch (sort_due.getValue()) {
+            case ("\uD83D\uDCC6   Due date"): sortDateVal = 0; break;
+            case ("↓     Latest to Earliest"): sortDateVal = 1; break;
+            case ("↑     Earliest to Latest"): sortDateVal = 2; break;
+            default: sortDateVal = 0; break;
+        }
 
-        int sortDateVal= 0;
-        switch (sort_due.getValue()){
-            case ("\uD83D\uDCC6   Due date"):
-                sortDateVal = 0;
-                break;
-            case ("↓     Latest to Earliest"):
-                sortDateVal = 1;
-                break;
-            case("↑     Earliest to Latest"):
-                sortDateVal = 2;
-                break;
+        int sortTimeVal;
+        switch (sort_time.getValue()) {
+            case ("\uD83D\uDD53 Due time"): sortTimeVal = 0; break;
+            case ("↓     Latest to Earliest"): sortTimeVal = 1; break;
+            case ("↑     Earliest to Latest"): sortTimeVal = 2; break;
+            default: sortTimeVal = 0; break;
         }
-        int sortTimeVal = 0;
-        switch (sort_due.getValue()){
-            case ("\uD83D\uDD53 Due time"):
-                sortTimeVal = 0;
-                break;
-            case ("↓     Latest to Earliest"):
-                sortTimeVal = 1;
-                break;
-            case("↑     Earliest to Latest"):
-                sortDateVal = 2;
-                break;
-        }
-        if(enableDateRange.isSelected()){
-            fromDateFilter = dateFrom.getValue();
-            toDateFilter = dateTo.getValue();
 
-            System.out.println(toDateFilter);
-            System.out.println(fromDateFilter);
+        if (enableDateRange.isSelected()) {
+            if (dateFrom.getValue() == null && dateTo.getValue() != null) {
+                fromDateFilter = null;
+                toDateFilter = dateTo.getValue();
+            } else if (dateFrom.getValue() != null && dateTo.getValue() == null) {
+                toDateFilter = null;
+                fromDateFilter = dateFrom.getValue();
+            } else {
+                fromDateFilter = dateFrom.getValue();
+                toDateFilter = dateTo.getValue();
+            }
         }
-        if(enableTimeRange.isSelected()){
+        if (enableTimeRange.isSelected()) {
             fromTimeFilter = LocalTime.of(fromHour.getValue(), fromMinute.getValue());
-            toTimeFilter = LocalTime.of(toHour.getValue(),toMinute.getValue());
-
-            System.out.println(fromTimeFilter);
-            System.out.println(toTimeFilter);
+            toTimeFilter = LocalTime.of(toHour.getValue(), toMinute.getValue());
         }
+
 
         System.out.println(completedFilter);
         System.out.println(uncompletedFilter);
         System.out.println(rRuleFilter);
         System.out.println(categoryFilter);
-        LinkedList<Task> filteredTasks = new LinkedList<>();
 
     for (Task task : tasks) {
             boolean matches = true;
@@ -775,31 +761,24 @@ public class MainController implements Initializable {
     if (selectedToggle != null) {
         RadioButton selectedRadio = (RadioButton) selectedToggle;
 
-        if (selectedRadio == dueDateRadio) {
-            if (sortDateVal == 1) {
-                filteredTasks.sort(Comparator.comparing(Task::getDueDate).reversed());
-            } else if (sortDateVal == 2) {
-                filteredTasks.sort(Comparator.comparing(Task::getDueDate));
-            }
-        }
-
-        if (selectedRadio == dueTimeRadio) {
-            if (sortTimeVal == 1) {
-                filteredTasks.sort(Comparator.comparing(Task::getDueTime).reversed());
-            } else if (sortTimeVal == 2) {
-                filteredTasks.sort(Comparator.comparing(Task::getDueTime));
-            }
-        }
+        Comparator<Task> comparator = null;
 
         if (selectedRadio == priorityRadio) {
-            if (sortPriorityVal == 1) {
-                filteredTasks.sort(Comparator.comparing(Task::getPriority).reversed());
-            } else if (sortPriorityVal == 2) {
-                filteredTasks.sort(Comparator.comparing(Task::getPriority));
-            }
+            comparator = Comparator.comparingInt(task -> task.getPriority().getLevel());
+            if (sortPriorityVal == 1) comparator = comparator.reversed();
+        } else if (selectedRadio == dueDateRadio) {
+            comparator = Comparator.comparing(Task::getDueDate);
+            if (sortDateVal == 1) comparator = comparator.reversed();
+        } else if (selectedRadio == dueTimeRadio) {
+            comparator = Comparator.comparing(Task::getDueTime);
+            if (sortTimeVal == 1) comparator = comparator.reversed();
+        }
+
+        if (comparator != null) {
+            filteredList.sort(comparator);
         }
     }
-    refreshTaskList(filteredTasks);
+    refreshTaskList(filteredList);
     long endTime = System.nanoTime();
     Benchmark.getInstance().getTime(startTime,endTime,6);
     Benchmark.getInstance().getSpace(6);
