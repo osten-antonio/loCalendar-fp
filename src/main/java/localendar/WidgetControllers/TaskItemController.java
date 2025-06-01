@@ -11,10 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import localendar.Category;
-import localendar.Database;
-import localendar.Priority;
-import localendar.Task;
+import localendar.*;
 import javafx.scene.shape.Rectangle;
 
 import java.time.format.DateTimeFormatter;
@@ -126,6 +123,7 @@ public class TaskItemController {
         alert.setContentText("Click OK to proceed, or Cancel to abort.");
         alert.showAndWait().ifPresent(response -> {
             if (response.getText().equals("OK")) {
+                long startTime = System.nanoTime();
                 Database db = new Database();
                 db.deleteTask(task);
                 db.closeConnection();
@@ -135,6 +133,9 @@ public class TaskItemController {
                 // TODO loop through every task in the data structure, from your getter function at main
                 // TODO if it matches remove it
                 // TODO then main.refreshTaskList(main.YOUR DATA STRUCUTERE GETTER FUNCTION)
+                long endTime = System.nanoTime();
+                Benchmark.getInstance().getTime(startTime,endTime,5);
+                Benchmark.getInstance().getSpace(5);
             }
         });
     }

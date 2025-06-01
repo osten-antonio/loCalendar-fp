@@ -12,10 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import localendar.Category;
-import localendar.Database;
-import localendar.Frequency;
-import localendar.Task;
+import localendar.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -199,7 +196,7 @@ public class MainController implements Initializable {
                 "↑   Earliest to Latest"));
 
         sort_time.setValue("\uD83D\uDD53 Due time");
-
+        long startTime = System.nanoTime();
         try{
             ResultSet taskQueryResult = db.getTasks();
             while(taskQueryResult.next()){
@@ -236,7 +233,9 @@ public class MainController implements Initializable {
         toMinute.valueProperty().addListener((obs, oldVal, newVal) -> filter());
 
         populateCalendar();
-
+        long endTime = System.nanoTime();
+        Benchmark.getInstance().getTime(startTime,endTime,1);
+        Benchmark.getInstance().getSpace(1);
     }
 
     public HashMap<Integer, Category> getCategories(){
@@ -632,6 +631,7 @@ public class MainController implements Initializable {
     @FXML
     private void search(){
         System.out.println(searchBar.getText());
+        long startTime = System.nanoTime();
         LinkedList<Task> temp = new LinkedList<>();
         for(Task task:tasks){
             if(task.getTitle().contains(searchBar.getText())){
@@ -644,11 +644,15 @@ public class MainController implements Initializable {
               for every task taht matches, add that task to a new instance of your data structure
               then pass to refreshTaskList()
          */
+        long endTime = System.nanoTime();
+        Benchmark.getInstance().getTime(startTime,endTime,2);
+        Benchmark.getInstance().getSpace(2);
 
     }
 
     @FXML
     private void filter(){
+        long startTime = System.nanoTime();
         completedFilter = completed.isSelected();
         uncompletedFilter = uncompleted.isSelected();
         LinkedList<Task> filteredList = new LinkedList<>();
@@ -796,6 +800,9 @@ public class MainController implements Initializable {
         }
     }
     refreshTaskList(filteredTasks);
+    long endTime = System.nanoTime();
+    Benchmark.getInstance().getTime(startTime,endTime,6);
+    Benchmark.getInstance().getSpace(6);
 }
 
     @FXML
