@@ -139,6 +139,7 @@ public class TaskCreateController implements Initializable {
         boolean valid = !taskTitle.getText().isBlank() && dueDate.getValue()!=null &&
                 prioritySelector.getValue() != null;
         if(valid){
+            long startTime = System.nanoTime();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String selected = prioritySelector.getValue().toUpperCase();
             Priority selectedPriority = Priority.valueOf(selected);
@@ -161,6 +162,9 @@ public class TaskCreateController implements Initializable {
             main.refreshCache();
             Stage stage = (Stage) taskTitle.getScene().getWindow();
             stage.close();
+            long endTime = System.nanoTime();
+            Benchmark.getInstance().getTime(startTime,endTime,3);
+            Benchmark.getInstance().getSpace(3);
         }
         else{
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -192,6 +196,7 @@ public class TaskCreateController implements Initializable {
             boolean valid = !taskTitle.getText().isBlank() && dueDate.getValue() != null &&
                     !prioritySelector.getValue().isBlank();
             if (valid) {
+                long startTime = System.nanoTime();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 String selected = prioritySelector.getValue().toUpperCase();
                 Priority selectedPriority = Priority.valueOf(selected);
@@ -224,6 +229,9 @@ public class TaskCreateController implements Initializable {
 
                 Stage stage = (Stage) taskTitle.getScene().getWindow();
                 stage.close();
+                long endTime = System.nanoTime();
+                Benchmark.getInstance().getTime(startTime,endTime,4);
+                Benchmark.getInstance().getSpace(4);
             }
             else{
                 Alert alert = new Alert(Alert.AlertType.WARNING);

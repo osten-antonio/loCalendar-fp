@@ -27,15 +27,15 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         // Temporary
-        System.setOut(new PrintStream(new OutputStream() {
-            public void write(int b) {}
-        }));
-
-        System.setErr(new PrintStream(new OutputStream() {
-            public void write(int b) {}
-        }));
-
-        Logger.getLogger("javafx.fxml").setLevel(Level.SEVERE);
+//        System.setOut(new PrintStream(new OutputStream() {
+//            public void write(int b) {}
+//        }));
+//
+//        System.setErr(new PrintStream(new OutputStream() {
+//            public void write(int b) {}
+//        }));
+//
+//        Logger.getLogger("javafx.fxml").setLevel(Level.SEVERE);
         launch();
     }
 }
