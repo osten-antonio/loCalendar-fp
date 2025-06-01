@@ -7,6 +7,9 @@ module localendar.localendar {
     requires java.desktop;
     requires java.compiler;
     requires jdk.incubator.vector;
+    requires org.apache.poi.poi;
+    requires org.apache.poi.ooxml;
+    requires commons.math3;
 
     opens localendar to javafx.fxml;
     exports localendar;

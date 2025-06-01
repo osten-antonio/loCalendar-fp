@@ -195,7 +195,7 @@ public class MainController implements Initializable {
                 "↑   Earliest to Latest"));
 
         sort_time.setValue("\uD83D\uDD53 Due time");
-
+        long startTime = System.nanoTime();
         try{
             ResultSet taskQueryResult = db.getTasks();
             while(taskQueryResult.next()){
@@ -224,7 +224,9 @@ public class MainController implements Initializable {
         toMinute.valueProperty().addListener((obs, oldVal, newVal) -> filter());
 
         populateCalendar();
-
+        long endTime = System.nanoTime();
+        Benchmark.getInstance().getTime(startTime,endTime,1);
+        Benchmark.getInstance().getSpace(1);
     }
 
     public HashMap<Integer, Category> getCategories(){
@@ -612,6 +614,7 @@ public class MainController implements Initializable {
     @FXML
     private void search(){
         System.out.println(searchBar.getText());
+        long startTime = System.nanoTime();
         BinaryTree temp = new BinaryTree();
         tasks.inOrder(task -> {
             if(task.getTitle().contains(searchBar.getText())){
@@ -619,10 +622,14 @@ public class MainController implements Initializable {
             }
         });
         refreshTaskList(temp);
+        long endTime = System.nanoTime();
+        Benchmark.getInstance().getTime(startTime,endTime,2);
+        Benchmark.getInstance().getSpace(2);
     }
 
     @FXML
     private void filter(){
+        long startTime = System.nanoTime();
         completedFilter = completed.isSelected();
         uncompletedFilter = uncompleted.isSelected();
 
@@ -750,6 +757,9 @@ public class MainController implements Initializable {
             }
         }
         refreshTaskList(filteredTree);
+        long endTime = System.nanoTime();
+        Benchmark.getInstance().getTime(startTime,endTime,6);
+        Benchmark.getInstance().getSpace(6);
 
     }
 
