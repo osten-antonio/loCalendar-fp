@@ -620,15 +620,23 @@ public class MainController implements Initializable {
 
     @FXML
     private void left(){
+        long startTime = System.nanoTime();
         curDate = curDate.minusMonths(1);
         monthLabel.setText(curDate.format(DateTimeFormatter.ofPattern("MMMM, yyyy")));
         populateCalendar();
+        long endTime = System.nanoTime();
+        Benchmark.getInstance().getTime(startTime,endTime,7);
+        Benchmark.getInstance().getSpace(7);
     }
     @FXML
     private void right(){
+        long startTime = System.nanoTime();
         curDate = curDate.plusMonths(1);
         monthLabel.setText(curDate.format(DateTimeFormatter.ofPattern("MMMM, yyyy")));
         populateCalendar();
+        long endTime = System.nanoTime();
+        Benchmark.getInstance().getTime(startTime,endTime,7);
+        Benchmark.getInstance().getSpace(7);
     }
 
     @FXML
