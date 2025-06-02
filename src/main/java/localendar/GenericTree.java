@@ -117,6 +117,7 @@ public class GenericTree<T> {
 
     private TreeNode rightRotate(TreeNode y) {
         TreeNode x = y.left;
+        if (x == null) return y;
         TreeNode T2 = x.right;
 
         x.right = y;
@@ -130,6 +131,7 @@ public class GenericTree<T> {
 
     private TreeNode leftRotate(TreeNode x) {
         TreeNode y = x.right;
+        if (y == null) return x;
         TreeNode T2 = y.left;
 
         y.left = x;
