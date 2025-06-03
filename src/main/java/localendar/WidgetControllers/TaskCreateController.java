@@ -230,6 +230,11 @@ public class TaskCreateController implements Initializable {
 
                 main.refreshCache();
                 db.updateTask(task, resTask);
+                db.closeConnection();
+                main.refreshTaskList(mainTaskQueue);
+
+                Stage stage = (Stage) taskTitle.getScene().getWindow();
+                stage.close();
                 long endTime = System.nanoTime();
                 Benchmark.getInstance().getTime(startTime,endTime,4);
                 Benchmark.getInstance().getSpace(4);
