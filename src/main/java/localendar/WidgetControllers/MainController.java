@@ -330,26 +330,23 @@ public class MainController implements Initializable {
         if (cache.containsKey(curDate.toString())) {
             // TODO replace list with your data strucutre: exapmple for priority queue:  Map<LocalDate, PriorityQueue<Node>> dayToNodes = cache.get(curDate.toString());
             Map<LocalDate, ArrayList<Node>> dayToNodes = cache.get(curDate.toString());
+
             if (dayToNodes != null) {
+
                 // Load task nodes from cache and place them in the calendar grid
                 for (int day = 1; day <= 35; day++) {
-                    int actualDay = (day - daysInPrevMonth) > 0
-                            ? (day - daysInPrevMonth)
-                            : (daysInPrevMonth - day + daysInPrevMonth + currentMonth.lengthOfMonth());
+                    LocalDate actualDate = firstOfMonth.minusDays(daysInPrevMonth).plusDays(day - 1);
+                    // TODO replace with your data structure
+                    ArrayList<Node> dayTasks = dayToNodes.get(actualDate);
 
-                    // TODO replace List with your data structure
-                    // YOUR DATA STRUCTURE<Node> dayTasks = dayToNodes.get(actualDay);
                     int targetBoxIndex = day - 1;
-                    LocalDate actualDate = curDate.withDayOfMonth(1).plusDays(day - 1);
-                    List<Node> dayTasks = dayToNodes.get(actualDate);
 
                     if (dayTasks != null) {
                         if (dayTasks.size() > 2) { // TODO dayTasks.size() depends on data strucutre
                             for (int i = 0; i < 2; i++) {
                                 // TODO get node from your data structure and put in motnh
-                                Node node = dayTasks.get(i);
+                                Node node = dayTasks.get(i); // ?? bro
                                 monthDayBox.get(targetBoxIndex).getChildren().add(dayTasks.get(i));
-
                                 // Example from priority queue:
                                 // Node temp = dayTasks.poll();
                                 // monthDayBox.get(targetBoxIndex).getChildren().add(temp);
@@ -417,8 +414,9 @@ public class MainController implements Initializable {
                                 }
                             }
                         }
-                        return; // skip building from scratch
+
                     }
+                return; // skip building from scratch
                 }
             } else {
                 LocalDate startWindow = currentMonth.atDay(1).minusDays(daysInPrevMonth);
@@ -444,25 +442,8 @@ public class MainController implements Initializable {
                                     controller.setRoot(root);
                                     controller.setTask(instance);
 
-                                    dayToNodes.computeIfAbsent(instDate, k -> new ArrayList<>());
-
+                                    dayToNodes.putIfAbsent(instDate, new ArrayList<>());
                                     dayToNodes.get(instDate).add(item);
-
-                                    //TODO for below: add item to your data strucutre, if there is no key add a new instance
-                                    // of your data structre then add the item in taht key
-                                    int dayOfMonth = task.getDueDate().getDayOfMonth();  // That task
-                            /* TODO Uncomment this
-                             HASHMAP INITIALIZED EARLIER.putIfAbsent(dayOfMonth, new instance of YOUR_dATASTRUCTURE);
-                             HASHMAP INITIALIZED EARLIER.get(dayOfMonth).add(taskNode);
-                            */
-                                    // You might need to compare each node to sort it properly
-
-                                    // Priority queue example:
-                                    // dayToNodes.putIfAbsent(instDate, new PriorityQueue<>(Comparator.comparing(node -> {
-                                    //    CalendarTaskItemController ctrl = (CalendarTaskItemController) node.getUserData();
-                                    //    return ctrl.getTask().getDueTime();
-                                    // })));
-                                    // dayToNodes.get(instDate).add(item);
 
                                 } catch (IOException e) {
                                     e.printStackTrace();
@@ -485,29 +466,13 @@ public class MainController implements Initializable {
                                 dayToNodes.putIfAbsent(taskDate, new ArrayList<>());
                                 dayToNodes.get(taskDate).add(item);
 
-                                //TODO for below: add item to your data strucutre, if there is no key add a new instance
-                                // of your data structre then add the item in taht key
-                                int dayOfMonth = task.getDueDate().getDayOfMonth();  // That task
-                            /* TODO Uncomment this
-                                HASHMAP INITIALIZED EARLIER.putIfAbsent(dayOfMonth, new instance of YOUR_dATASTRUCTURE);
-                                HASHMAP INITIALIZED EARLIER.get(dayOfMonth).add(taskNode);
-                             */
-                                // You might need to compare each node to sort it properly
-
-
-                                // Priority queue example:
-                                // dayToNodes.putIfAbsent(instDate, new PriorityQueue<>(Comparator.comparing(node -> {
-                                //    CalendarTaskItemController ctrl = (CalendarTaskItemController) node.getUserData();
-                                //    return ctrl.getTask().getDueTime();
-                                // })));
-                                //    dayToNodes.get(instDate).add(item);
-
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
                     }
                 }
+
 
                 for (int day = 0; day < 35; day++) {
                     LocalDate actualDate = startWindow.plusDays(day);
@@ -590,15 +555,15 @@ public class MainController implements Initializable {
                                 monthDayBox.get(targetBoxIndex).getChildren().add(taskNode);
                             }
                         }
+
                     }
+                    // Cache the tasks for the current month
+                    cache.put(curDate.toString(), dayToNodes);
+
                 }
 
-
-                // Cache the tasks for the current month
-        /* TODO Uncomment this, the hashmap is the one earlier
-          cache.put(curDate.toString(), (HASHMAP<LocalDate,YOUR_DATASTRUCTURE<Node>>));
-         */
             }
+
         }
 
         public void generateTaskItem (Task task){
@@ -704,19 +669,26 @@ public class MainController implements Initializable {
             }
         }
 
-        @FXML
-        private void left () {
-            curDate = curDate.minusMonths(1);
-            monthLabel.setText(curDate.format(DateTimeFormatter.ofPattern("MMMM, yyyy")));
-            populateCalendar();
-        }
-        @FXML
-        private void right () {
-            curDate = curDate.plusMonths(1);
-            monthLabel.setText(curDate.format(DateTimeFormatter.ofPattern("MMMM, yyyy")));
-            populateCalendar();
-        }
-
+    @FXML
+    private void left(){
+        long startTime = System.nanoTime();
+        curDate = curDate.minusMonths(1);
+        monthLabel.setText(curDate.format(DateTimeFormatter.ofPattern("MMMM, yyyy")));
+        populateCalendar();
+        long endTime = System.nanoTime();
+        Benchmark.getInstance().getTime(startTime,endTime,7);
+        Benchmark.getInstance().getSpace(7);
+    }
+    @FXML
+    private void right(){
+        long startTime = System.nanoTime();
+        curDate = curDate.plusMonths(1);
+        monthLabel.setText(curDate.format(DateTimeFormatter.ofPattern("MMMM, yyyy")));
+        populateCalendar();
+        long endTime = System.nanoTime();
+        Benchmark.getInstance().getTime(startTime,endTime,7);
+        Benchmark.getInstance().getSpace(7);
+    }
         @FXML
         private void today () {
             curDate = LocalDate.now();

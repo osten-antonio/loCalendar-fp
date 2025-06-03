@@ -242,7 +242,9 @@ public class TaskCreateController implements Initializable {
                 }
 
                 main.refreshCache();
-                db.updateTask(prevTask, resTask);
+                db.updateTask(task, resTask);
+                db.closeConnection();
+                main.refreshTaskList(taskList);
 
                 Stage stage = (Stage) taskTitle.getScene().getWindow();
                 stage.close();

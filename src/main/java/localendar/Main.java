@@ -8,6 +8,10 @@ import javafx.scene.text.Font;
 
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main extends Application {
 
@@ -22,6 +26,16 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+
+        System.setOut(new PrintStream(new OutputStream() {
+            public void write(int b) {}
+        }));
+
+        System.setErr(new PrintStream(new OutputStream() {
+            public void write(int b) {}
+        }));
+
+        Logger.getLogger("javafx.fxml").setLevel(Level.SEVERE);
         launch();
     }
 }
