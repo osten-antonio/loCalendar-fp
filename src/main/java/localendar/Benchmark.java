@@ -24,7 +24,7 @@ public class Benchmark {
             FileInputStream fis = new FileInputStream("data.xlsx");
             workbook = new XSSFWorkbook(fis);
             // 0 = 10, 1 = 100, 2 = 1000
-            sheet = workbook.getSheetAt(2);
+            sheet = workbook.getSheetAt(3);
 
         } catch (IOException e) {
             e.printStackTrace();
