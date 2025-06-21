@@ -34,3 +34,10 @@ loCalendar is a calendar to do list app aimed to figure out how to finding out w
 
 ![recurrencerule](https://github.com/osten-antonio/loCalendar/blob/main/Documentation/Images/recurrencerule.png)
 
+## Other links
+
+[Poster link](https://github.com/osten-antonio/loCalendar/blob/main/Documentation/LoCalendar%20Final%20Project%20Poster.png)
+
+[Presentation link](https://docs.google.com/presentation/d/1oip1s3u6Rp6LkYbs2--mEgT-T2gixw6GbpSH-cvovx0/edit?slide=id.gdcb566e1d5_0_62#slide=id.gdcb566e1d5_0_62)
+
+[Data link](https://docs.google.com/spreadsheets/d/1I05qgmCs3SNNFK6qgheWVTPi1ErULCOBVdvriu53VdM/edit?gid=1857951735#gid=1857951735)
