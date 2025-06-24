@@ -3,7 +3,7 @@
 
 loCalendar is a calendar to do list app aimed to figure out how to finding out what data structure is efficient in creating providing a GUI for a calendar. 
 
-# Features
+## Features
 - Simple to use UI
 - Categories for tasks
 - Calendar UI and tasks list
@@ -12,12 +12,19 @@ loCalendar is a calendar to do list app aimed to figure out how to finding out w
 - Sorting
 - Caching for calendar navigation
 
-# Branches
+## Branches
 - Main (boiler plate used for implementing the different data structures)
 - Linked list
 - Array list
 - Priority queue
 - Binary tree
+
+## Built with
+- ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+- ![JavaFX](https://img.shields.io/badge/javafx-%23FF0000.svg?style=for-the-badge&logo=javafx&logoColor=white)
+- ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
+- ![Maven](https://img.shields.io/badge/apachemaven-C71A36.svg?style=for-the-badge&logo=apachemaven&logoColor=white)
+
 
 
 
@@ -34,10 +41,3 @@ loCalendar is a calendar to do list app aimed to figure out how to finding out w
 
 ![recurrencerule](https://github.com/osten-antonio/loCalendar/blob/main/Documentation/Images/recurrencerule.png)
 
-## Other links
-
-[Poster link](https://github.com/osten-antonio/loCalendar/blob/main/Documentation/LoCalendar%20Final%20Project%20Poster.png)
-
-[Presentation link](https://docs.google.com/presentation/d/1oip1s3u6Rp6LkYbs2--mEgT-T2gixw6GbpSH-cvovx0/edit?slide=id.gdcb566e1d5_0_62#slide=id.gdcb566e1d5_0_62)
-
-[Data link](https://docs.google.com/spreadsheets/d/1I05qgmCs3SNNFK6qgheWVTPi1ErULCOBVdvriu53VdM/edit?gid=1857951735#gid=1857951735)
