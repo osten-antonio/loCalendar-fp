@@ -31,13 +31,13 @@ loCalendar is a calendar to do list app aimed to figure out how to finding out w
 
 ## Screenshots
 
-![mainscreen](https://github.com/osten-antonio/loCalendar/blob/main/Documentation/Images/mainscreen.png)
+![mainscreen](https://github.com/osten-antonio/loCalendar/blob/main/Images/mainscreen.png)
 
 // The recurring tasks will appear in the calendar
 
-![createtask](https://github.com/osten-antonio/loCalendar/blob/main/Documentation/Images/%20createtask.png)
+![createtask](https://github.com/osten-antonio/loCalendar/blob/main/Images/createtask.png)
 
-![categories](https://github.com/osten-antonio/loCalendar/blob/main/Documentation/Images/categories.png)
+![categories](https://github.com/osten-antonio/loCalendar/blob/main/Images/categories.png)
 
-![recurrencerule](https://github.com/osten-antonio/loCalendar/blob/main/Documentation/Images/recurrencerule.png)
+![recurrencerule](https://github.com/osten-antonio/loCalendar/blob/main/Images/recurrencerule.png)
 
